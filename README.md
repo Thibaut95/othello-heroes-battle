@@ -1,2 +1,2 @@
-# othello-heroes-battle
-Game othello developed in C#
+# Othello Heroes Battle
+Game othello developed in C#.
