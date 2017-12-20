@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Othello_Heroes_Battle
+namespace OthelloHeroesBattle
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

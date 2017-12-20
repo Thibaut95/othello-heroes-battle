@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Othello_Heroes_Battle.Properties
+namespace OthelloHeroesBattle.Properties
 {
 
 

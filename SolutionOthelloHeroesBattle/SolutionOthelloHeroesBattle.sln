@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.16
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OthelloHeroesBattle", "OthelloHeroesBattle\OthelloHeroesBattle.csproj", "{A25B4FEE-39AE-478A-B7B7-922147970EC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IPlayable", "IPlayable\IPlayable.csproj", "{BA3EE494-56E3-470E-AACF-CB0577BE0EB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A25B4FEE-39AE-478A-B7B7-922147970EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25B4FEE-39AE-478A-B7B7-922147970EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25B4FEE-39AE-478A-B7B7-922147970EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25B4FEE-39AE-478A-B7B7-922147970EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA3EE494-56E3-470E-AACF-CB0577BE0EB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3EE494-56E3-470E-AACF-CB0577BE0EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA3EE494-56E3-470E-AACF-CB0577BE0EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA3EE494-56E3-470E-AACF-CB0577BE0EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DDDD4E67-3640-4F96-8ADD-5D6F23B6EB3A}
+	EndGlobalSection
+EndGlobal
