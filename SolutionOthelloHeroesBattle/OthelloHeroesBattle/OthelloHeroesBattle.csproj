@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\IPlayable\IPlayable.csproj">
+      <Project>{ba3ee494-56e3-470e-aacf-cb0577be0eb6}</Project>
+      <Name>IPlayable</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
