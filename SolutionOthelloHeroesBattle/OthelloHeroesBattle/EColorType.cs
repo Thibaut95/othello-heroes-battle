@@ -5,7 +5,8 @@
     /// </summary>
     public enum EColorType
     {
-        white,
-        black
+        free = 0,
+        white = 1,
+        black = 2
     }
 }

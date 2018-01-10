@@ -20,6 +20,11 @@ namespace OthelloHeroesBattle
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        #region Private Members
+        private Board board;
+        #endregion
+
         public MainWindow()
         {
             InitializeComponent();
