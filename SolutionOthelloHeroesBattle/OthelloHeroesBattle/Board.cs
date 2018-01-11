@@ -11,6 +11,7 @@ namespace OthelloHeroesBattle
     {
         #region Private members
         private int[,] board;
+        private AI ai;
         private EStateType eStateType;
         private const int SIZE_TILE = 8;
         #endregion
@@ -19,8 +20,8 @@ namespace OthelloHeroesBattle
         public Board()
         {
             board = new int[SIZE_TILE, SIZE_TILE];
-
         }
+
 
         public void SetCoin(EColorType color, int line, int col)
         {
@@ -97,6 +98,11 @@ namespace OthelloHeroesBattle
 
         public bool IsPlayable(int column, int line, bool isWhite)
         {
+            return IsFlip(column, line, isWhite);
+        }
+
+        private bool IsFlip(int column, int line, bool isWhite, bool isFlip=false)
+        {
             #region Init. variables
             int sourceTile = this.board[line, column];
             int currentTile = -1;
@@ -116,7 +122,7 @@ namespace OthelloHeroesBattle
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x != 0 && y != 0 && InBoardArea(line+x, column+y))
+                    if (x != 0 && y != 0 && InBoardArea(line + x, column + y))
                     {
                         currentTile = this.board[line + x, column + y];
 
@@ -136,8 +142,20 @@ namespace OthelloHeroesBattle
                                 if (InBoardArea(posX, posY))
                                 {
                                     currentTile = this.board[posX, posY];
-                                    if(isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
+                                    if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
                                     {
+                                        posX = -x;
+                                        posY = -y;
+                                        currentTile = this.board[posX, posY];
+                                        int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
+                                        while (currentTile != (int)EColorType.free)
+                                        {
+                                            this.board[posX, posY] = color;
+                                            posX = -x;
+                                            posY = -y;
+                                            currentTile = this.board[posX, posY];
+                                        }
+                                        this.board[line, column] = color;
                                         return true;
                                     }
                                 }
@@ -157,7 +175,7 @@ namespace OthelloHeroesBattle
 
         public bool PlayMove(int column, int line, bool isWhite)
         {
-            throw new NotImplementedException();
+            return IsFlip(column, line, isWhite, true);
         }
     }
 }
