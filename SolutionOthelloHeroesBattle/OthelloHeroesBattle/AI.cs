@@ -13,16 +13,14 @@ namespace OthelloHeroesBattle
         private const int MAXDEPTH = 4;
 
         private IPlayable.IPlayable board;
-        private int color;
         private Tuple<int, int> bestMove;
         
-        public AI(IPlayable.IPlayable board, int color)
+        public AI(IPlayable.IPlayable board)
         {
             this.board = board;
-            this.color = color;
         }
 
-        public Tuple<int,int> GetNextMove()
+        public Tuple<int,int> GetNextMove(int color)
         {
             GameState currentState = new GameState(board.GetBoard(), color);
             AlphaBeta(currentState, MAXDEPTH, 1, currentState.GetEvaluation());
