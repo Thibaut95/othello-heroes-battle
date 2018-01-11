@@ -150,7 +150,7 @@ namespace OthelloHeroesBattle
             return isValid;
         }
 
-        private static bool InBoardArea(int column, int line)
+        public static bool InBoardArea(int column, int line)
         {
             return line >= 0 && line <= 7 && column >= 0 && column <= 7;
         }
