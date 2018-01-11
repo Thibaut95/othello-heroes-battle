@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IPlayable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +9,26 @@ namespace OthelloHeroesBattle
 {
     public class Board : IPlayable.IPlayable
     {
+        #region Private members
+        int[,] board;
+        EStateType eStateType;
+        #endregion
+
+
         public Board()
         {
-            throw new NotImplementedException();
+            board = new int[8, 8];
+
         }
 
         public void SetCoin(EColorType color, int line, int col)
         {
-            throw new NotImplementedException();
+            this.board[line,col] = (int)color;
         }
 
         public EColorType GetCoin(int line, int col)
         {
-            throw new NotImplementedException();
+            return (EColorType)this.board[line, col];
         }
 
         public void reset()
@@ -35,7 +43,7 @@ namespace OthelloHeroesBattle
 
         public int[,] GetBoard()
         {
-            throw new NotImplementedException();
+            return this.board;
         }
 
         public string GetName()
@@ -43,14 +51,26 @@ namespace OthelloHeroesBattle
             throw new NotImplementedException();
         }
 
-        public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
+        public Tuple<int, int> GetNextMove(int[,] game, int level, bool isWhiteTurn)
         {
             throw new NotImplementedException();
         }
 
         public int GetWhiteScore()
         {
-            throw new NotImplementedException();
+            int score = 0;
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    if (this.board[i, j] == (int)EColorType.white)
+                    {
+                        score++;
+                    }
+                }
+            }
+
+            return score;
         }
 
         public bool IsPlayable(int column, int line, bool isWhite)
@@ -60,7 +80,20 @@ namespace OthelloHeroesBattle
 
         public bool PlayMove(int column, int line, bool isWhite)
         {
-            throw new NotImplementedException();
+            int coinType = this.board[line, column];
+
+            if (coinType == (int)EColorType.free)
+            {
+                if (isWhite)
+                {
+                    //vérifier toute les directions
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -11,10 +11,10 @@ namespace OthelloHeroesBattle
         private string name;
         private EColorType colorType;
         private List<Coin> listCoins;
-        private Board board;
+        private IPlayable.IPlayable board;
         private EPlayerType ePlayerType;
 
-        public Player(Board board)
+        public Player(IPlayable.IPlayable board)
         {
             this.board = board;
         }
@@ -22,7 +22,7 @@ namespace OthelloHeroesBattle
         protected string Name { get => name; set => name = value; }
         protected EColorType ColorType { get => colorType; set => colorType = value; }
         protected List<Coin> ListCoins { get => listCoins; set => listCoins = value; }
-        protected Board Board { set => board = value; }
+        protected IPlayable.IPlayable Board { set => board = value; }
 
     }
 }
