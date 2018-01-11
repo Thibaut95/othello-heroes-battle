@@ -11,6 +11,7 @@ namespace OthelloHeroesBattle
     {
         #region Private members
         private int[,] board;
+        private AI ai;
         private EStateType eStateType;
         private const int SIZE_TILE = 8;
         #endregion
@@ -19,8 +20,8 @@ namespace OthelloHeroesBattle
         public Board()
         {
             board = new int[SIZE_TILE, SIZE_TILE];
-
         }
+
 
         public void SetCoin(EColorType color, int line, int col)
         {
@@ -150,7 +151,7 @@ namespace OthelloHeroesBattle
             return isValid;
         }
 
-        private static bool InBoardArea(int column, int line)
+        public static bool InBoardArea(int column, int line)
         {
             return line >= 0 && line <= 7 && column >= 0 && column <= 7;
         }
