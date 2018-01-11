@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using IPlayable;
-
 namespace OthelloIAG4
 { 
     class AI
@@ -51,10 +49,5 @@ namespace OthelloIAG4
             }
             return bestEvaluation;
         }
-
-
-        
-
-
     }
 }
