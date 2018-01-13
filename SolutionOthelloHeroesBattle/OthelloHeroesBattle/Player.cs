@@ -14,9 +14,10 @@ namespace OthelloHeroesBattle
         private IPlayable.IPlayable board;
         private EPlayerType ePlayerType;
 
-        public Player(IPlayable.IPlayable board)
+        public Player(IPlayable.IPlayable board, String name)
         {
             this.board = board;
+            this.name = name;
         }
 
         protected string Name { get => name; set => name = value; }

@@ -11,15 +11,23 @@ namespace OthelloHeroesBattle
     {
         #region Private members
         private int[,] board;
-        private AI ai;
         private EStateType eStateType;
         private const int SIZE_TILE = 8;
+
+        public int this[int row, int column]       // indexeur
+        {
+            get { return board[row, column]; }
+            set { board[row, column] = (int)value; }
+        }
+
+
+        public int[,] BoardGame { get => board; set => board = value; }
         #endregion
 
 
         public Board()
         {
-            board = new int[SIZE_TILE, SIZE_TILE];
+            BoardGame = new int[SIZE_TILE, SIZE_TILE];
         }
 
 
@@ -30,23 +38,37 @@ namespace OthelloHeroesBattle
 
         public EColorType GetCoin(int line, int col)
         {
-            return (EColorType)this.board[line, col];
+            return (EColorType)this.BoardGame[line, col];
         }
 
-        public void reset()
+        /// <summary>
+        /// Reset the board for a new game.
+        /// </summary>
+        public void Reset()
         {
             for (int i = 0; i < SIZE_TILE; i++)
             {
                 for (int j = 0; j < SIZE_TILE; j++)
                 {
-                    this.board[i, j] = (int)EColorType.free;
+                    if((i == 3 && j == 3) || (i == 4 && j == 4))
+                    {
+                        this.BoardGame[i, j] = (int)EColorType.white;
+                    }
+                    else if((i == 3 && j == 4) || (i == 4 && j == 3))
+                    {
+                        this.BoardGame[i, j] = (int)EColorType.black;
+                    }
+                    else
+                    {
+                        this.BoardGame[i, j] = (int)EColorType.free;
+                    }
                 }
             }
         }
 
         public int[,] GetBoard()
         {
-            return this.board;
+            return this.BoardGame;
         }
 
         /// <summary>
@@ -56,7 +78,7 @@ namespace OthelloHeroesBattle
         /// <returns></returns>
         public string GetName()
         {
-            throw new NotImplementedException();
+            return "SHIT IA EVER";
         }
 
         /// <summary>
@@ -82,11 +104,11 @@ namespace OthelloHeroesBattle
         private int GetCoinScore(EColorType eColorType)
         {
             int score = 0;
-            for (int i = 0; i < board.GetLength(0); i++)
+            for (int i = 0; i < BoardGame.GetLength(0); i++)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
+                for (int j = 0; j < BoardGame.GetLength(1); j++)
                 {
-                    if (this.board[i, j] == (int)eColorType)
+                    if (this.BoardGame[i, j] == (int)eColorType)
                     {
                         score++;
                     }
@@ -104,7 +126,7 @@ namespace OthelloHeroesBattle
         private bool IsFlip(int column, int line, bool isWhite, bool isFlip=false)
         {
             #region Init. variables
-            int sourceTile = this.board[line, column];
+            int sourceTile = this.BoardGame[line, column];
             int currentTile = -1;
             bool isValid = false;
             #endregion
@@ -124,11 +146,12 @@ namespace OthelloHeroesBattle
                 {
                     if (x != 0 && y != 0 && InBoardArea(line + x, column + y))
                     {
-                        currentTile = this.board[line + x, column + y];
+                        currentTile = this.BoardGame[line + x, column + y];
 
                         if (isWhite && currentTile == (int)EColorType.black ||
                             !isWhite && currentTile == (int)EColorType.white)
                         {
+                            
                             int posX = line + x;
                             int posY = column + y;
 
@@ -141,21 +164,21 @@ namespace OthelloHeroesBattle
 
                                 if (InBoardArea(posX, posY))
                                 {
-                                    currentTile = this.board[posX, posY];
+                                    currentTile = this.BoardGame[posX, posY];
                                     if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
                                     {
                                         posX = -x;
                                         posY = -y;
-                                        currentTile = this.board[posX, posY];
+                                        currentTile = this.BoardGame[posX, posY];
                                         int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
                                         while (currentTile != (int)EColorType.free)
                                         {
-                                            this.board[posX, posY] = color;
+                                            this.BoardGame[posX, posY] = color;
                                             posX = -x;
                                             posY = -y;
-                                            currentTile = this.board[posX, posY];
+                                            currentTile = this.BoardGame[posX, posY];
                                         }
-                                        this.board[line, column] = color;
+                                        this.BoardGame[line, column] = color;
                                         return true;
                                     }
                                 }
