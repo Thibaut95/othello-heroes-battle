@@ -8,19 +8,25 @@ namespace OthelloIAG4
 {
     public class Board : IPlayable.IPlayable
     {
-        
         private int[,] board;
         private AI ai;
         private const int SIZE_TILE = 8;
         
-
-
         public Board()
         {
+            Console.WriteLine("constructeur");
             ai = new AI(this);
-            board = new int[SIZE_TILE, SIZE_TILE];
+            board =new int[,]{
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+                { -1,-1,-1,0,1,-1,-1,-1},
+                { -1,-1,-1,1,0,-1,-1,-1},
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+                { -1,-1,-1,-1,-1,-1,-1,-1},
+            }; 
         }
-
 
         public void SetCoin(EColorType color, int line, int col)
         {
@@ -65,7 +71,8 @@ namespace OthelloIAG4
         /// <returns></returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool isWhiteTurn)
         {
-            if(isWhiteTurn)
+            Console.WriteLine("nextmove");
+            if (isWhiteTurn)
             {
                 return ai.GetNextMove((int)EColorType.white);
             }
@@ -101,7 +108,6 @@ namespace OthelloIAG4
             return score;
         }
 
-
         public bool IsPlayable(int column, int line, bool isWhite)
         {
             return IsFlip(column, line, isWhite);
@@ -110,7 +116,7 @@ namespace OthelloIAG4
         private bool IsFlip(int column, int line, bool isWhite, bool isFlip = false)
         {
             #region Init. variables
-            int sourceTile = this.board[line, column];
+            int sourceTile = this.board[column, line];
             int currentTile = -1;
             bool isValid = false;
             #endregion
@@ -128,15 +134,15 @@ namespace OthelloIAG4
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x != 0 && y != 0 && InBoardArea(line + x, column + y))
+                    if ((x != 0 || y != 0) && InBoardArea(column + x, line + y))
                     {
-                        currentTile = this.board[line + x, column + y];
+                        currentTile = this.board[column + x, line + y];
 
                         if (isWhite && currentTile == (int)EColorType.black ||
                             !isWhite && currentTile == (int)EColorType.white)
                         {
-                            int posX = line + x;
-                            int posY = column + y;
+                            int posX = column;
+                            int posY = line;
 
                             //on a trouvé un coup potentiel. 
                             //Donc on va exploité la direction pour voir si on trouve une pièce de la même couleur
@@ -148,30 +154,43 @@ namespace OthelloIAG4
                                 if (InBoardArea(posX, posY))
                                 {
                                     currentTile = this.board[posX, posY];
-                                    if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
+                                    if (currentTile == (int)EColorType.free)
                                     {
-                                        posX = -x;
-                                        posY = -y;
-                                        currentTile = this.board[posX, posY];
-                                        int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
-                                        while (currentTile != (int)EColorType.free)
-                                        {
-                                            this.board[posX, posY] = color;
-                                            posX = -x;
-                                            posY = -y;
-                                            currentTile = this.board[posX, posY];
+                                        isValid = true;
+                                    }
+                                    else if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
+                                    {     
+                                        if(isFlip)
+                                        {                                          
+                                            int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
+                                            do
+                                            {
+                                                posX -= x;
+                                                posY -= y;
+                                                this.board[posX, posY] = color;
+
+                                            } while (posX!=column||posY!=line);
+                                            this.board[column, line] = color;
+                                            isValid = true;
                                         }
-                                        this.board[line, column] = color;
-                                        return true;
+                                        else
+                                        {
+                                            return true;
+                                        }
                                     }
                                 }
-                            }
+                                else
+                                {
+                                    isValid = true;
+                                }
 
+                            }
+                            isValid = false;
                         }
                     }
                 }
             }
-            return isValid;
+            return isFlip;
         }
 
         public static bool InBoardArea(int column, int line)
