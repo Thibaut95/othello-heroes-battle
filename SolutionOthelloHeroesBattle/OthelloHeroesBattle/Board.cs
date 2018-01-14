@@ -14,10 +14,10 @@ namespace OthelloHeroesBattle
         private EStateType eStateType;
         private const int SIZE_TILE = 8;
 
-        public int this[int row, int column]       // indexeur
+        public int this[int column, int row]       // indexeur
         {
-            get { return board[row, column]; }
-            set { board[row, column] = (int)value; }
+            get { return board[column, row]; }
+            set { board[column, row] = (int)value; }
         }
 
 
@@ -33,12 +33,12 @@ namespace OthelloHeroesBattle
 
         public void SetCoin(EColorType color, int line, int col)
         {
-            this.board[line, col] = (int)color;
+            this.board[col, line] = (int)color;
         }
 
         public EColorType GetCoin(int line, int col)
         {
-            return (EColorType)this.BoardGame[line, col];
+            return (EColorType)this.BoardGame[col, line];
         }
 
         /// <summary>
@@ -126,9 +126,10 @@ namespace OthelloHeroesBattle
         private bool IsFlip(int column, int line, bool isWhite, bool isFlip=false)
         {
             #region Init. variables
-            int sourceTile = this.BoardGame[line, column];
+            int sourceTile = this.board[column, line];
             int currentTile = -1;
             bool isValid = false;
+            bool isLegal = false;
             #endregion
 
             //on vérifie déjà si la place est libre
@@ -144,16 +145,15 @@ namespace OthelloHeroesBattle
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x != 0 && y != 0 && InBoardArea(line + x, column + y))
+                    if ((x != 0 || y != 0) && InBoardArea(column + x, line + y))
                     {
-                        currentTile = this.BoardGame[line + x, column + y];
+                        currentTile = this.board[column + x, line + y];
 
                         if (isWhite && currentTile == (int)EColorType.black ||
                             !isWhite && currentTile == (int)EColorType.white)
                         {
-                            
-                            int posX = line + x;
-                            int posY = column + y;
+                            int posX = column;
+                            int posY = line;
 
                             //on a trouvé un coup potentiel. 
                             //Donc on va exploité la direction pour voir si on trouve une pièce de la même couleur
@@ -164,31 +164,47 @@ namespace OthelloHeroesBattle
 
                                 if (InBoardArea(posX, posY))
                                 {
-                                    currentTile = this.BoardGame[posX, posY];
-                                    if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
+                                    currentTile = this.board[posX, posY];
+                                    if (currentTile == (int)EColorType.free)
                                     {
-                                        posX = -x;
-                                        posY = -y;
-                                        currentTile = this.BoardGame[posX, posY];
-                                        int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
-                                        while (currentTile != (int)EColorType.free)
-                                        {
-                                            this.BoardGame[posX, posY] = color;
-                                            posX = -x;
-                                            posY = -y;
-                                            currentTile = this.BoardGame[posX, posY];
-                                        }
-                                        this.BoardGame[line, column] = color;
-                                        return true;
+                                        isValid = true;
                                     }
-                                }
-                            }
+                                    else if ((isWhite && currentTile == (int)EColorType.white ) || (!isWhite && currentTile == (int)EColorType.black))
+                                    {
+                                        if (isFlip)
+                                        {
+                                            Console.WriteLine("ISFLIPPING");
+                                            int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
+                                            do
+                                            {
+                                                posX -= x;
+                                                posY -= y;
+                                                this.board[posX, posY] = color;
 
+                                            } while (posX != column || posY != line);
+                                            this.board[column, line] = color;
+                                            isValid = true;
+                                            isLegal = true;
+                                        }
+                                        else
+                                        {
+                                            return true;
+                                        }
+                                    }
+       
+                                }
+                                else
+                                {
+                                    isValid = true;
+                                }
+
+                            }
+                            isValid = false;
                         }
                     }
                 }
             }
-            return isValid;
+            return isLegal;
         }
 
         public static bool InBoardArea(int column, int line)
@@ -199,6 +215,28 @@ namespace OthelloHeroesBattle
         public bool PlayMove(int column, int line, bool isWhite)
         {
             return IsFlip(column, line, isWhite, true);
+        }
+
+        public void DebugBoardGame()
+        {
+            for (int i = 0; i < this.board.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.board.GetLength(1); j++)
+                {
+                    Console.Write(this.board[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public override bool Equals(object obj)
+        {
+            return base.Equals(obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

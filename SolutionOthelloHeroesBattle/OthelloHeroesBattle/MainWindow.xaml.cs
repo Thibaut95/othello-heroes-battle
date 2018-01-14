@@ -26,6 +26,8 @@ namespace OthelloHeroesBattle
         private Board board;
         private bool isWhiteTurn;
         private bool GameEnded;
+        private int countEmptyCell;
+        private int skipTurn; // skipTurn = 1 mean one player can't move, skipTurn = 2 mean the both player can't move... So game ended
         #endregion
 
         /// <summary>
@@ -47,48 +49,33 @@ namespace OthelloHeroesBattle
             this.board = new Board();
             this.board.Reset();
 
+            this.countEmptyCell = 0;
+
             //we make sure that is the white turn first.
             this.isWhiteTurn = true;
 
             //we make sure that the content in each button is reset
-            Container.Children.Cast<Button>().ToList().ForEach(button =>
-            {
-                if((Grid.GetRow(button) == 3 && Grid.GetColumn(button) == 3) || (Grid.GetRow(button) == 4 && Grid.GetColumn(button) == 4))
-                {
-                    button.Content = "White";
-                }
-                else if ((Grid.GetRow(button) == 3 && Grid.GetColumn(button) == 4) || (Grid.GetRow(button) == 4 && Grid.GetColumn(button) == 3))
-                {
-                    button.Content = "Black";
-                }
-                else
-                {
-                    button.Content = String.Empty;
-                }
-            });
+            updateGridGUI();
 
-            List<Tuple<int, int>> list = new List<Tuple<int, int>>();
-            list.Add(new Tuple<int, int>(0, 0));
-            list.Add(new Tuple<int, int>(2, 2));
-            list.Add(new Tuple<int, int>(1, 1));
-            ShowThePlayableCell(list);
+            ShowThePlayableCell();
 
             //make sure the game hasn't finish !
             this.GameEnded = false;
         }
 
-        private void ShowThePlayableCell(List<Tuple<int, int>>cells)
-        {
-            foreach (var cell in cells)
-            {
-                Container.Children.Cast<Button>().ToList().ForEach(button =>
-                {
-                    if(Grid.GetRow(button) == cell.Item1 && Grid.GetColumn(button) == cell.Item2){
-                        button.Background = Brushes.Red;
-                    }
 
-                });
-            }
+        private bool ShowThePlayableCell()
+        {
+            bool isPlayable = false;
+            Container.Children.Cast<Button>().ToList().ForEach(button =>
+            {
+               button.Background = Brushes.White;
+               if(this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), this.isWhiteTurn)){
+                  button.Background = Brushes.Red;
+                    isPlayable = true;
+                }
+            });
+            return isPlayable;
         }
 
         /// <summary>
@@ -111,35 +98,65 @@ namespace OthelloHeroesBattle
                 var column = Grid.GetColumn(button);
                 var row = Grid.GetRow(button);
 
-
-                //if the cell is busy do noting...
-                if(this.board.IsPlayable(column, row, this.isWhiteTurn))
+                if(this.board.PlayMove(column, row, isWhiteTurn))
                 {
+                    Console.WriteLine("LEGAL MOVE");
+                    //the move is playable so we update the view
+                    updateGridGUI();
+                    this.board.DebugBoardGame();
+                }
+                else
+                {
+                    //the move is not playable...
+                    Console.WriteLine("ILLEGAL MOVE");
+                    this.board.DebugBoardGame();
                     return;
                 }
-
-                //update the board
-                board[row, column] = this.isWhiteTurn ? (int)EColorType.white : (int)EColorType.black;
-
-                //update the gui
-                button.Content = this.isWhiteTurn ? "White" : "Black";
 
                 //toggle player
                 this.isWhiteTurn ^= true;
 
-                //check winner
-                if (CheckForWinner()) {
+
+                if (!ShowThePlayableCell())
+                {
+                    this.skipTurn += 1;
+                    this.isWhiteTurn ^= true;
+                }
+
+                // check winner or end game
+                if (this.skipTurn == 2 || countEmptyCell == 1)
+                {
                     this.GameEnded = true;
                 }
-                else
-                {
-                    //ShowThePlayableCell();
-                }
+
             }
             catch (InvalidCastException ie)
             {
                 Console.WriteLine(ie.Message);
             }
+        }
+
+        private void updateGridGUI()
+        {
+            Container.Children.Cast<Button>().ToList().ForEach(buttonGame =>
+            {
+                var _column = Grid.GetColumn(buttonGame);
+                var _row = Grid.GetRow(buttonGame);
+                buttonGame.Background = Brushes.White;
+                if (this.board[_column, _row] == (int)EColorType.black)
+                {
+                    buttonGame.Content = "Black";
+                }
+                else if (this.board[_column, _row] == (int)EColorType.white)
+                {
+                    buttonGame.Content = "white";
+                }
+                else
+                {
+                    buttonGame.Content = String.Empty;
+                    countEmptyCell++;
+                }
+            });
         }
 
         /// <summary>
