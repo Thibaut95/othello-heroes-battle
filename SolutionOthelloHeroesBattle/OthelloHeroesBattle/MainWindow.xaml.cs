@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Resources;
 using System.Windows.Shapes;
 
 
@@ -28,6 +29,8 @@ namespace OthelloHeroesBattle
         private bool GameEnded;
         private int countEmptyCell;
         private int skipTurn; // skipTurn = 1 mean one player can't move, skipTurn = 2 mean the both player can't move... So game ended
+        private ImageBrush brush;
+        private ImageBrush brushSuperman;
         #endregion
 
         /// <summary>
@@ -36,8 +39,31 @@ namespace OthelloHeroesBattle
         public MainWindow()
         {
             InitializeComponent();
+
+            ImageManger();
+
             NewGame();
 
+        }
+
+        private void ImageManger()
+        {
+            Uri resourceUri = new Uri("images/Spiderman.png", UriKind.Relative);
+            Uri resourceSuperman = new Uri("images/Superman.png", UriKind.Relative);
+
+            StreamResourceInfo streamInfo = Application.GetResourceStream(resourceUri);
+            BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
+
+            brush = new ImageBrush();
+            brush.Stretch = Stretch.UniformToFill;
+            brush.ImageSource = temp;
+
+            streamInfo = Application.GetResourceStream(resourceSuperman);
+            temp = BitmapFrame.Create(streamInfo.Stream);
+
+            brushSuperman = new ImageBrush();
+            brushSuperman.Stretch = Stretch.UniformToFill;
+            brushSuperman.ImageSource = temp;
         }
 
         /// <summary>
@@ -55,7 +81,7 @@ namespace OthelloHeroesBattle
             this.isWhiteTurn = true;
 
             //we make sure that the content in each button is reset
-            updateGridGUI();
+            UpdateGridGUI();
 
             ShowThePlayableCell();
 
@@ -69,10 +95,13 @@ namespace OthelloHeroesBattle
             bool isPlayable = false;
             Container.Children.Cast<Button>().ToList().ForEach(button =>
             {
-               button.Background = Brushes.White;
-               if(this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), this.isWhiteTurn)){
-                  button.Background = Brushes.Red;
+                button.Content = String.Empty;
+                if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), this.isWhiteTurn)) {
+                    button.Background = Brushes.Aqua;
                     isPlayable = true;
+                } else if (this.board[Grid.GetColumn(button), Grid.GetRow(button)] == (int)EColorType.free)
+                {
+                    button.Background = Brushes.White;
                 }
             });
             return isPlayable;
@@ -102,7 +131,7 @@ namespace OthelloHeroesBattle
                 {
                     Console.WriteLine("LEGAL MOVE");
                     //the move is playable so we update the view
-                    updateGridGUI();
+                    UpdateGridGUI();
                     this.board.DebugBoardGame();
                 }
                 else
@@ -115,6 +144,8 @@ namespace OthelloHeroesBattle
 
                 //toggle player
                 this.isWhiteTurn ^= true;
+
+
 
 
                 if (!ShowThePlayableCell())
@@ -136,20 +167,21 @@ namespace OthelloHeroesBattle
             }
         }
 
-        private void updateGridGUI()
+        private void UpdateGridGUI()
         {
             Container.Children.Cast<Button>().ToList().ForEach(buttonGame =>
             {
                 var _column = Grid.GetColumn(buttonGame);
                 var _row = Grid.GetRow(buttonGame);
-                buttonGame.Background = Brushes.White;
                 if (this.board[_column, _row] == (int)EColorType.black)
                 {
-                    buttonGame.Content = "Black";
+
+
+                    buttonGame.Background = brush;
                 }
                 else if (this.board[_column, _row] == (int)EColorType.white)
                 {
-                    buttonGame.Content = "white";
+                    buttonGame.Background = brushSuperman;
                 }
                 else
                 {

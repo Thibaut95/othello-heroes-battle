@@ -7,54 +7,59 @@ using System.Threading.Tasks;
 using IPlayable;
 
 namespace OthelloHeroesBattle
-{ 
+{
     class AI
     {
         private const int MAXDEPTH = 4;
 
         private IPlayable.IPlayable board;
-        private Tuple<int, int> bestMove;
-        
+        private Tuple<int, int> bestMove = null;
+
         public AI(IPlayable.IPlayable board)
         {
             this.board = board;
         }
 
-        public Tuple<int,int> GetNextMove(int color)
+        public Tuple<int, int> GetNextMove(int color)
         {
             GameState currentState = new GameState(board.GetBoard(), color);
             AlphaBeta(currentState, MAXDEPTH, 1, currentState.GetEvaluation());
+            Console.WriteLine("BestMove" + bestMove);
             return bestMove;
         }
- 
+
         private int AlphaBeta(GameState gameState, int depth, int minOrMax, int parentValue)
         {
-            if(depth == 0 || gameState.IsFinal())
-            {
-                return gameState.GetEvaluation();
-            }
             int bestEvaluation = minOrMax * -int.MaxValue;
-            bestMove = null;
-            foreach (Tuple<int,int> move in gameState.GetAvaibleMove())
+            List<Tuple<int, int>> avaibleMove = gameState.GetAvaibleMove();
+            if (avaibleMove.Count == 0)
             {
-                GameState newState = gameState.ApllyMove(move);
-                int tempEvaluation = AlphaBeta(newState, depth - 1, -minOrMax, bestEvaluation);
-                if(tempEvaluation * minOrMax > bestEvaluation * minOrMax)
+                Console.WriteLine("pas de coup");
+                bestMove = new Tuple<int, int>(-1, -1);
+                return 0;
+            }
+            else
+            {
+                if (depth == 0 || gameState.IsFinal())
                 {
-                    bestEvaluation = tempEvaluation;
-                    bestMove = move;
-                    if(bestEvaluation * minOrMax > parentValue * minOrMax)
+                    return gameState.GetEvaluation();
+                }
+                foreach (Tuple<int, int> move in avaibleMove)
+                {
+                    GameState newState = gameState.ApllyMove(move);
+                    int tempEvaluation = AlphaBeta(newState, depth - 1, -minOrMax, bestEvaluation);
+                    if (tempEvaluation * minOrMax > bestEvaluation * minOrMax)
                     {
-                        break;
+                        bestEvaluation = tempEvaluation;
+                        bestMove = move;
+                        if (bestEvaluation * minOrMax > parentValue * minOrMax)
+                        {
+                            break;
+                        }
                     }
                 }
             }
             return bestEvaluation;
         }
-
-
-        
-
-
     }
 }

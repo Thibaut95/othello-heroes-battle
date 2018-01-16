@@ -20,14 +20,14 @@ namespace OthelloHeroesBattle
         {
             this.color = color;
             this.state = state;
-            this.weight = GetEvaluation();          
+            this.weight = GetEvaluation();
         }
-    
+
         public bool IsFinal()
         {
             foreach (int value in state)
             {
-                if(value != color && value != -1)
+                if (value != color && value != -1)
                 {
                     return false;
                 }
@@ -35,12 +35,19 @@ namespace OthelloHeroesBattle
             return true;
         }
 
-        public GameState ApllyMove(Tuple<int,int> move)
+        public GameState ApllyMove(Tuple<int, int> move)
         {
-            int[,] newState = state;
+            int[,] newState = (int[,])state.Clone();
             newState[move.Item1, move.Item2] = color;
-            int newColor = color - 1;
-            if (newColor < 0) newColor = 1;
+            int newColor = 0;
+            if (color == (int)EColorType.white)
+            {
+                newColor = (int)EColorType.black;
+            }
+            else
+            {
+                newColor = (int)EColorType.white;
+            }
             return new GameState(newState, newColor);
         }
 
@@ -51,7 +58,8 @@ namespace OthelloHeroesBattle
             {
                 for (int j = 0; j < SIZEBOARD; j++)
                 {
-                    if(IsPlayable(i, j, color == (int)EColorType.white))
+
+                    if (IsPlayable(i, j, color == (int)EColorType.white))
                     {
                         listMove.Add(new Tuple<int, int>(i, j));
                     }
@@ -70,9 +78,8 @@ namespace OthelloHeroesBattle
         }
 
         private int GetWeightColor()
-        {         
+        {
             int counter = 0;
-
             for (int i = 0; i < SIZEBOARD; i++)
             {
                 for (int j = 0; j < SIZEBOARD; j++)
@@ -99,7 +106,7 @@ namespace OthelloHeroesBattle
         public bool IsPlayable(int column, int line, bool isWhite)
         {
             #region Init. variables
-            int sourceTile = state[line, column];
+            int sourceTile = state[column, line];
             int currentTile = -1;
             bool isValid = false;
             #endregion
@@ -117,15 +124,16 @@ namespace OthelloHeroesBattle
             {
                 for (int y = -1; y <= 1; y++)
                 {
-                    if (x != 0 && y != 0 && Board.InBoardArea(line + x, column + y))
+                    if ((x != 0 || y != 0) && Board.InBoardArea(column + x, line + y))
                     {
-                        currentTile = state[line + x, column + y];
+                        currentTile = state[column + x, line + y];
 
                         if (isWhite && currentTile == (int)EColorType.black ||
                             !isWhite && currentTile == (int)EColorType.white)
                         {
-                            int posX = line + x;
-                            int posY = column + y;
+
+                            int posX = column;
+                            int posY = line;
 
                             //on a trouvé un coup potentiel. 
                             //Donc on va exploité la direction pour voir si on trouve une pièce de la même couleur
@@ -137,18 +145,26 @@ namespace OthelloHeroesBattle
                                 if (Board.InBoardArea(posX, posY))
                                 {
                                     currentTile = state[posX, posY];
-                                    if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
+                                    if (currentTile == (int)EColorType.free)
+                                    {
+                                        isValid = true;
+                                    }
+                                    else if (isWhite && currentTile == (int)EColorType.white || !isWhite && currentTile == (int)EColorType.black)
                                     {
                                         return true;
                                     }
                                 }
+                                else
+                                {
+                                    isValid = true;
+                                }
                             }
-
+                            isValid = false;
                         }
                     }
                 }
             }
-            return isValid;
+            return false;
         }
     }
 }
