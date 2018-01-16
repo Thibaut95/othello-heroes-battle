@@ -146,6 +146,7 @@
   <ItemGroup>
     <Resource Include="images\Spiderman.png" />
     <Resource Include="images\Superman.png" />
+    <Resource Include="images\ironman.png" />
     <Content Include="Resources\Spiderman.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

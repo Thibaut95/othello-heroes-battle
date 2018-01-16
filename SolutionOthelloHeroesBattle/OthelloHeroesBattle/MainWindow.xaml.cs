@@ -29,8 +29,12 @@ namespace OthelloHeroesBattle
         private bool GameEnded;
         private int countEmptyCell;
         private int skipTurn; // skipTurn = 1 mean one player can't move, skipTurn = 2 mean the both player can't move... So game ended
-        private ImageBrush brush;
-        private ImageBrush brushSuperman;
+        private ImageBrush brushWhite;
+        private ImageBrush brushBlack;
+        private Player playerWhite;
+        private Player playerBlack;
+        private Binding bindingWhite;
+        private Binding bindingBlack;
         #endregion
 
         /// <summary>
@@ -40,30 +44,40 @@ namespace OthelloHeroesBattle
         {
             InitializeComponent();
 
-            ImageManger();
+            LoadAssets();
+
+            BindingPlayer();
 
             NewGame();
 
         }
 
-        private void ImageManger()
+        private void BindingPlayer()
         {
-            Uri resourceUri = new Uri("images/Spiderman.png", UriKind.Relative);
-            Uri resourceSuperman = new Uri("images/Superman.png", UriKind.Relative);
+            playerWhite = new Player("Spiderman");
+            playerBlack = new Player("Superman");
 
-            StreamResourceInfo streamInfo = Application.GetResourceStream(resourceUri);
-            BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
+            bindingWhite = new Binding("Score")
+            {
+                Source = playerWhite
+            };
 
-            brush = new ImageBrush();
-            brush.Stretch = Stretch.UniformToFill;
-            brush.ImageSource = temp;
+            bindingBlack = new Binding("Score")
+            {
+                Source = playerBlack
+            };
 
-            streamInfo = Application.GetResourceStream(resourceSuperman);
-            temp = BitmapFrame.Create(streamInfo.Stream);
+            ScoreWhite.SetBinding(TextBlock.TextProperty, bindingWhite);
+            ScoreBlack.SetBinding(TextBlock.TextProperty, bindingBlack);
+        }
 
-            brushSuperman = new ImageBrush();
-            brushSuperman.Stretch = Stretch.UniformToFill;
-            brushSuperman.ImageSource = temp;
+        private void LoadAssets()
+        {
+           
+            brushWhite = ImageManager.GetBrushHeroes(ECoinType.ironman);
+            brushBlack = ImageManager.GetBrushHeroes(ECoinType.superman);
+            BtnWhitePlayer.Background = brushWhite;
+            BtnBlackPlayer.Background = brushBlack;
         }
 
         /// <summary>
@@ -175,13 +189,11 @@ namespace OthelloHeroesBattle
                 var _row = Grid.GetRow(buttonGame);
                 if (this.board[_column, _row] == (int)EColorType.black)
                 {
-
-
-                    buttonGame.Background = brush;
+                    buttonGame.Background = brushWhite;
                 }
                 else if (this.board[_column, _row] == (int)EColorType.white)
                 {
-                    buttonGame.Background = brushSuperman;
+                    buttonGame.Background = brushBlack;
                 }
                 else
                 {
@@ -189,6 +201,10 @@ namespace OthelloHeroesBattle
                     countEmptyCell++;
                 }
             });
+
+            this.playerWhite.Score = this.board.GetBlackScore();
+            this.playerBlack.Score = this.board.GetWhiteScore();
+
         }
 
         /// <summary>

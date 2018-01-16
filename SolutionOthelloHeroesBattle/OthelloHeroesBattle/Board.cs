@@ -1,6 +1,7 @@
 ﻿using IPlayable;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,8 +12,9 @@ namespace OthelloHeroesBattle
     {
         #region Private members
         private int[,] board;
-        private EStateType eStateType;
         private const int SIZE_TILE = 8;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public int this[int column, int row]       // indexeur
         {

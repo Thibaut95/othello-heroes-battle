@@ -42,15 +42,16 @@
         </Button>
         
         <StackPanel x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Style="{StaticResource MyButtonStyle}" Width="100" Height="100" Background="{StaticResource AddButtonImageBrush}" BorderBrush="{x:Null}">
+            <Button x:Name="BtnWhitePlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}">
             </Button>
-            <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20">0</TextBlock>
+            <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
+            <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20"></TextBlock>
         </StackPanel>
 
         <StackPanel x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Width="100" Height="100" Background="{StaticResource AddButtonImageBrushSuperman}" BorderBrush="{x:Null}"/>
-            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20">TIMER :</TextBlock>
-            <TextBlock x:Name="ScoreBlack" Margin="10">Your score :</TextBlock>
+            <Button x:Name="BtnBlackPlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}"/>
+            <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20"></TextBlock>
         </StackPanel>
 
         <Grid x:Name="Container" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500">
