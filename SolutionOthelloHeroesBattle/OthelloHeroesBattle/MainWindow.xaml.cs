@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
 
 namespace OthelloHeroesBattle
 {
@@ -35,6 +35,9 @@ namespace OthelloHeroesBattle
         private Player playerBlack;
         private Binding bindingWhite;
         private Binding bindingBlack;
+        private Binding bindingWhiteTimer;
+        private Binding bindingBlackTimer;
+        private DispatcherTimer dtClockTime;
         #endregion
 
         /// <summary>
@@ -44,12 +47,32 @@ namespace OthelloHeroesBattle
         {
             InitializeComponent();
 
+
+            dtClockTime = new DispatcherTimer();
+            dtClockTime.Interval = new TimeSpan(0, 0, 1); //in Hour, Minutes, Second.
+            dtClockTime.Tick += DtClockTime_Tick;
+            dtClockTime.Start();
+
             LoadAssets();
 
             BindingPlayer();
 
             NewGame();
 
+        }
+
+        private void DtClockTime_Tick(object sender, EventArgs e)
+        {
+            if (isWhiteTurn)
+            {
+                this.playerWhite.Timer += 1;
+                TimerWhite.Text = TimeSpan.FromSeconds(this.playerWhite.Timer).ToString(@"m'm 's's'");
+            }
+            else
+            {
+                this.playerBlack.Timer += 1;
+                TimerBlack.Text = TimeSpan.FromSeconds(this.playerBlack.Timer).ToString(@"m'm 's's'");
+            }
         }
 
         private void BindingPlayer()
@@ -67,15 +90,27 @@ namespace OthelloHeroesBattle
                 Source = playerBlack
             };
 
+            bindingWhiteTimer = new Binding("Timer")
+            {
+                Source = playerWhite
+            };
+
+            bindingBlackTimer = new Binding("Timer")
+            {
+                Source = playerBlack
+            };
+
             ScoreWhite.SetBinding(TextBlock.TextProperty, bindingWhite);
             ScoreBlack.SetBinding(TextBlock.TextProperty, bindingBlack);
+
+            TimerBlack.SetBinding(TextBlock.TextProperty, bindingBlackTimer);
+            TimerWhite.SetBinding(TextBlock.TextProperty, bindingWhiteTimer);
         }
 
         private void LoadAssets()
         {
-           
-            brushWhite = ImageManager.GetBrushHeroes(ECoinType.ironman);
-            brushBlack = ImageManager.GetBrushHeroes(ECoinType.superman);
+            brushWhite = ImageManager.GetBrushHeroes(ECoinType.superman);
+            brushBlack = ImageManager.GetBrushHeroes(ECoinType.spiderman);
             BtnWhitePlayer.Background = brushWhite;
             BtnBlackPlayer.Background = brushBlack;
         }
@@ -88,6 +123,11 @@ namespace OthelloHeroesBattle
             //first, init. the board
             this.board = new Board();
             this.board.Reset();
+
+            this.playerWhite.Timer = 0;
+            this.playerWhite.Score = 0;
+            this.playerBlack.Timer = 0;
+            this.playerBlack.Score = 0;
 
             this.countEmptyCell = 0;
 
@@ -213,6 +253,11 @@ namespace OthelloHeroesBattle
         private bool CheckForWinner()
         {
             return false;
+        }
+
+        private void Button_Reset(object sender, RoutedEventArgs e)
+        {
+            this.NewGame();
         }
     }
 }

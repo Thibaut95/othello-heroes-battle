@@ -11,11 +11,13 @@ namespace OthelloHeroesBattle
     {
         private string name;
         private int score;
+        private int timer;
 
         public Player(String name)
         {
             this.name = name;
             this.score = 0;
+            this.timer = 0;
         }
 
         public Player(String name, int score)
@@ -29,6 +31,14 @@ namespace OthelloHeroesBattle
             set {
                 score = value;
                 OnPropertyChanged("score");
+            }
+        }
+
+        public int Timer {
+            get => timer;
+            set {
+                timer = value;
+                OnPropertyChanged("timer");
             }
         }
         protected string Name { get => name; set => name = value; }

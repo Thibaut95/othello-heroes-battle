@@ -37,21 +37,22 @@
 
     <DockPanel LastChildFill="True">
 
-        <Button Style="{StaticResource MyButtonStyle}" DockPanel.Dock="Bottom" Click="Btn_click" Content="bottom" Height="50">
+        <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button MinWidth="93" Click="Button_Reset">Reset</Button>
+            <Button MinWidth="93" Margin="10,0,0,0">Save</Button>
+        </StackPanel>
 
-        </Button>
-        
         <StackPanel x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnWhitePlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}">
+            <Button x:Name="BtnWhitePlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
             </Button>
             <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
-            <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20"></TextBlock>
+            <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
 
         <StackPanel x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnBlackPlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}"/>
             <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20"></TextBlock>
+            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
         </StackPanel>
 
         <Grid x:Name="Container" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500">
