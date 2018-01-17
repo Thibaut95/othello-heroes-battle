@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace OthelloHeroesBattle
 {
@@ -31,6 +34,10 @@ namespace OthelloHeroesBattle
         private int skipTurn; // skipTurn = 1 mean one player can't move, skipTurn = 2 mean the both player can't move... So game ended
         private ImageBrush brushWhite;
         private ImageBrush brushBlack;
+        private ImageBrush brushWhitePlayable;
+        private ImageBrush brushBlackPlayable;
+        private ImageBrush brushMarvel;
+        private ImageBrush brushDC;
         private Player playerWhite;
         private Player playerBlack;
         private Binding bindingWhite;
@@ -46,12 +53,6 @@ namespace OthelloHeroesBattle
         public MainWindow()
         {
             InitializeComponent();
-
-
-            dtClockTime = new DispatcherTimer();
-            dtClockTime.Interval = new TimeSpan(0, 0, 1); //in Hour, Minutes, Second.
-            dtClockTime.Tick += DtClockTime_Tick;
-            dtClockTime.Start();
 
             LoadAssets();
 
@@ -109,38 +110,61 @@ namespace OthelloHeroesBattle
 
         private void LoadAssets()
         {
-            brushWhite = ImageManager.GetBrushHeroes(ECoinType.superman);
-            brushBlack = ImageManager.GetBrushHeroes(ECoinType.spiderman);
+            brushWhite = ImageManager.GetBrushHeroes(ECoinType.spiderman);
+            brushBlack = ImageManager.GetBrushHeroes(ECoinType.superman);
+
+            brushWhitePlayable = brushWhite.Clone();
+            brushWhitePlayable.Opacity = 0.3;
+            brushBlackPlayable = brushBlack.Clone();
+            brushBlackPlayable.Opacity = 0.3;
+
+            brushMarvel = ImageManager.GetBrushImage("marvel_logo.png");
+            brushMarvel.Opacity = 0.3;
+            brushDC = ImageManager.GetBrushImage("dc_logo.png");
+            brushDC.Opacity = 0.3;
+
             BtnWhitePlayer.Background = brushWhite;
             BtnBlackPlayer.Background = brushBlack;
         }
+
 
         /// <summary>
         /// Start a new game
         /// </summary>
         private void NewGame()
         {
+            //we make sure that is the white turn first.
+            this.isWhiteTurn = true;
+
+            ToggleTurnUi();
+
             //first, init. the board
             this.board = new Board();
             this.board.Reset();
 
-            this.playerWhite.Timer = 0;
-            this.playerWhite.Score = 0;
-            this.playerBlack.Timer = 0;
-            this.playerBlack.Score = 0;
+            //reset the player sccore and timer attributes
+            this.playerWhite.Reset();
+            this.playerBlack.Reset();
 
+            //tools to know if the game is finish
             this.countEmptyCell = 0;
-
-            //we make sure that is the white turn first.
-            this.isWhiteTurn = true;
 
             //we make sure that the content in each button is reset
             UpdateGridGUI();
 
+            //we show the playable move for the player
             ShowThePlayableCell();
 
             //make sure the game hasn't finish !
             this.GameEnded = false;
+
+            //we start a timer
+            dtClockTime = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1) //in Hour, Minutes, Second.
+            };
+            dtClockTime.Tick += DtClockTime_Tick;
+            dtClockTime.Start();
         }
 
 
@@ -150,12 +174,20 @@ namespace OthelloHeroesBattle
             Container.Children.Cast<Button>().ToList().ForEach(button =>
             {
                 button.Content = String.Empty;
-                if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), this.isWhiteTurn)) {
-                    button.Background = Brushes.Aqua;
+                if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)) {
+                    if (isWhiteTurn)
+                    {
+                        button.Background = brushWhitePlayable;
+                    }
+                    else
+                    {
+                        button.Background = brushBlackPlayable;
+                    }
+
                     isPlayable = true;
                 } else if (this.board[Grid.GetColumn(button), Grid.GetRow(button)] == (int)EColorType.free)
                 {
-                    button.Background = Brushes.White;
+                    button.Background = Brushes.Transparent;
                 }
             });
             return isPlayable;
@@ -186,33 +218,35 @@ namespace OthelloHeroesBattle
                     Console.WriteLine("LEGAL MOVE");
                     //the move is playable so we update the view
                     UpdateGridGUI();
-                    this.board.DebugBoardGame();
+                    //this.board.DebugBoardGame();
                 }
                 else
                 {
                     //the move is not playable...
                     Console.WriteLine("ILLEGAL MOVE");
-                    this.board.DebugBoardGame();
+                    //this.board.DebugBoardGame();
                     return;
                 }
 
                 //toggle player
-                this.isWhiteTurn ^= true;
-
-
+                this.isWhiteTurn = !this.isWhiteTurn;
 
 
                 if (!ShowThePlayableCell())
                 {
                     this.skipTurn += 1;
-                    this.isWhiteTurn ^= true;
+                    this.isWhiteTurn = !this.isWhiteTurn;
                 }
 
                 // check winner or end game
-                if (this.skipTurn == 2 || countEmptyCell == 1)
+                if (this.skipTurn >= 2 || countEmptyCell == 0)
                 {
+                    dtClockTime.Stop();
                     this.GameEnded = true;
                 }
+
+                //toggle the ui turn to know who can play
+                ToggleTurnUi();
 
             }
             catch (InvalidCastException ie)
@@ -223,17 +257,19 @@ namespace OthelloHeroesBattle
 
         private void UpdateGridGUI()
         {
+            Console.WriteLine("IS_WHITE_TURN " + isWhiteTurn);
+
             Container.Children.Cast<Button>().ToList().ForEach(buttonGame =>
             {
                 var _column = Grid.GetColumn(buttonGame);
                 var _row = Grid.GetRow(buttonGame);
                 if (this.board[_column, _row] == (int)EColorType.black)
                 {
-                    buttonGame.Background = brushWhite;
+                    buttonGame.Background = brushBlack;
                 }
                 else if (this.board[_column, _row] == (int)EColorType.white)
                 {
-                    buttonGame.Background = brushBlack;
+                    buttonGame.Background = brushWhite;
                 }
                 else
                 {
@@ -242,9 +278,44 @@ namespace OthelloHeroesBattle
                 }
             });
 
-            this.playerWhite.Score = this.board.GetBlackScore();
-            this.playerBlack.Score = this.board.GetWhiteScore();
+            
+            updateScore();
+        }
 
+        /// <summary>
+        /// Update the score of both player and change the background
+        /// </summary>
+        private void updateScore()
+        {
+            this.playerWhite.Score = this.board.GetWhiteScore();
+            this.playerBlack.Score = this.board.GetBlackScore();
+
+            if (this.playerWhite.Score > this.playerBlack.Score)
+            {
+                Container.Background = brushMarvel;
+            }
+            else if (this.playerWhite.Score < this.playerBlack.Score)
+            {
+                Container.Background = brushDC;
+            }
+            else
+            {
+                Container.Background = Brushes.White;
+            }
+        }
+
+        private void ToggleTurnUi()
+        {
+            if (isWhiteTurn)
+            {
+                PanelWhite.Opacity = 1;
+                PanelBlack.Opacity = 0.25;
+            }
+            else
+            {
+                PanelWhite.Opacity = 0.25;
+                PanelBlack.Opacity = 1;
+            }
         }
 
         /// <summary>
@@ -259,5 +330,18 @@ namespace OthelloHeroesBattle
         {
             this.NewGame();
         }
+
+        private void Button_Save(object sender, RoutedEventArgs e)
+        {
+            ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
+        }
+
+        private void Button_LoadGame(object sender, RoutedEventArgs e)
+        {
+            String filename = "test";
+            //Board board = (Board)ToolsOthello.DeSerializeObject(filename);
+        }
+
+
     }
 }

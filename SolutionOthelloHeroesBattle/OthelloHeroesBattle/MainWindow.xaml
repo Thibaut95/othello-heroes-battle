@@ -21,8 +21,10 @@
         <Style x:Key="MyButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
+
                     <ControlTemplate TargetType="Button">
                         <Grid Background="{TemplateBinding Background}">
+                            <Border BorderThickness="0.1" BorderBrush="SlateGray"></Border>
                             <ContentPresenter HorizontalAlignment="Center"
                         VerticalAlignment="Center"/>
                         </Grid>
@@ -30,7 +32,21 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
+        <Style x:Key="PanelButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Border BorderThickness="9"></Border>
+                            <ContentPresenter HorizontalAlignment="Center"
+                        VerticalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
 
@@ -39,18 +55,18 @@
 
         <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button MinWidth="93" Click="Button_Reset">Reset</Button>
-            <Button MinWidth="93" Margin="10,0,0,0">Save</Button>
+            <Button MinWidth="93" Margin="10,0,0,0" Click="Button_Save">Winner</Button>
         </StackPanel>
 
         <StackPanel x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnWhitePlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button x:Name="BtnWhitePlayer" Width="100" Height="100" Style="{StaticResource PanelButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
             </Button>
             <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
             <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
 
         <StackPanel x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button x:Name="BtnBlackPlayer" Width="100" Height="100" BorderBrush="{x:Null}" Style="{StaticResource MyButtonStyle}"/>
+            <Button x:Name="BtnBlackPlayer" Width="100" Height="100"  Style="{StaticResource PanelButtonStyle}"/>
             <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
         </StackPanel>

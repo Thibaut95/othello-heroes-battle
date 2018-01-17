@@ -33,5 +33,19 @@ namespace OthelloHeroesBattle
             brush.ImageSource = temp;
             return brush;
         }
+
+        public static ImageBrush GetBrushImage(String filename)
+        {
+            string path = "images/"+filename;
+            Uri resouceImage = new Uri(path, UriKind.Relative);
+
+            StreamResourceInfo streamInfo = Application.GetResourceStream(resouceImage);
+            BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
+
+            ImageBrush brush = new ImageBrush();
+            brush.Stretch = Stretch.Uniform;
+            brush.ImageSource = temp;
+            return brush;
+        }
     }
 }

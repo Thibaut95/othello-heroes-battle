@@ -49,5 +49,14 @@ namespace OthelloHeroesBattle
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        /// <summary>
+        /// Reset the attribute timer and score
+        /// </summary>
+        internal void Reset()
+        {
+            this.score = 0;
+            this.timer = 0;
+        }
     }
 }
