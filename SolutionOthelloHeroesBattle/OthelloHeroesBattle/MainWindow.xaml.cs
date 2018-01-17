@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
@@ -45,6 +46,8 @@ namespace OthelloHeroesBattle
         private Binding bindingWhiteTimer;
         private Binding bindingBlackTimer;
         private DispatcherTimer dtClockTime;
+        private ImageBrush brushMarvelDC;
+        private ImageBrush brushWallpaper;
         #endregion
 
         /// <summary>
@@ -53,13 +56,34 @@ namespace OthelloHeroesBattle
         public MainWindow()
         {
             InitializeComponent();
-
+            InitGridWithButton();
             LoadAssets();
-
             BindingPlayer();
-
             NewGame();
 
+        }
+
+        /// <summary>
+        /// Init. the button on the grid
+        /// </summary>
+        private void InitGridWithButton()
+        {
+            Style style = this.FindResource("MyButtonStyle") as Style;
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Button button = new Button();
+                    button.Style = style;
+                    button.Click += Btn_click;
+                    button.MouseEnter += BtnMouseEnter;
+                    button.MouseLeave += BtnMouseLeave;
+                    Grid.SetRow(button, i);
+                    Grid.SetColumn(button, j);
+                    Container.Children.Add(button);
+                }
+            }
         }
 
         private void DtClockTime_Tick(object sender, EventArgs e)
@@ -123,8 +147,16 @@ namespace OthelloHeroesBattle
             brushDC = ImageManager.GetBrushImage("dc_logo.png");
             brushDC.Opacity = 0.3;
 
+            brushMarvelDC = ImageManager.GetBrushImage("marvel_dc_logo.png");
+            brushMarvelDC.Opacity = 0.3;
+
             BtnWhitePlayer.Background = brushWhite;
             BtnBlackPlayer.Background = brushBlack;
+
+            brushWallpaper = ImageManager.GetBrushImage("marvel_logo_1.jpg");
+            brushWallpaper.Stretch = Stretch.UniformToFill;
+            brushWallpaper.Opacity = 0.1;
+            root.Background = Brushes.WhiteSmoke;
         }
 
 
@@ -200,6 +232,9 @@ namespace OthelloHeroesBattle
         /// <param name="e">the event of the click</param>
         private void Btn_click(object sender, RoutedEventArgs e)
         {
+
+            MessageBox.Show("WINNER");
+
             //is game ended... start a new game 
             if (this.GameEnded)
             {
@@ -243,6 +278,7 @@ namespace OthelloHeroesBattle
                 {
                     dtClockTime.Stop();
                     this.GameEnded = true;
+
                 }
 
                 //toggle the ui turn to know who can play
@@ -300,7 +336,7 @@ namespace OthelloHeroesBattle
             }
             else
             {
-                Container.Background = Brushes.White;
+                //Container.Background = brushMarvelDC;
             }
         }
 
@@ -342,6 +378,23 @@ namespace OthelloHeroesBattle
             //Board board = (Board)ToolsOthello.DeSerializeObject(filename);
         }
 
+        private void BtnMouseEnter(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)){
+                button.Background = (isWhiteTurn) ? brushWhite : brushBlack;
+            }
+            Console.WriteLine("OVERRR ENTER");
+        }
+
+        private void BtnMouseLeave(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            if(this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)){
+                button.Background = (isWhiteTurn) ? brushWhitePlayable : brushBlackPlayable;
+            }
+            Console.WriteLine("OVERRR LEAVE");
+        }
 
     }
 }

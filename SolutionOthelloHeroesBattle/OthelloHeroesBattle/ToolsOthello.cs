@@ -46,7 +46,6 @@ namespace OthelloHeroesBattle
             if (string.IsNullOrEmpty(fileName)) { return default(T); }
 
             T objectOut = default(T);
-
             try
             {
                 XmlDocument xmlDocument = new XmlDocument();

@@ -156,6 +156,9 @@
     <Resource Include="images\ironman.png" />
     <Resource Include="images\marvel_logo.png" />
     <Resource Include="images\dc_logo.png" />
+    <Resource Include="images\marvel_dc_logo.png" />
+    <Resource Include="images\wallpaper_1.jpg" />
+    <Resource Include="images\marvel_logo_1.jpg" />
     <Content Include="Resources\Spiderman.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
