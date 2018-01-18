@@ -56,7 +56,9 @@
     <DockPanel x:Name="root" LastChildFill="True" >
 
         <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
-            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent">ICON</Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Margin="10,0,0,0" Width="50" Height="50" Style="{StaticResource PanelButtonStyle}" >
+                <Image Source="images/icon_battle_heroes.png" Stretch="UniformToFill"/>
+            </Button>
             <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
 
                 <Button Background="Transparent" BorderThickness="1" BorderBrush="Transparent"   Width="24" Height="24" Click="Button_Mini"  Margin="10,0,0,0">
@@ -71,19 +73,33 @@
             </StackPanel>
         </DockPanel>
 
-        <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Undo" Width="24" Height="24" Margin="10,0,0,0">
-                <Image Source="images/btn_undo.png"/>
-            </Button>
-            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Reset" Width="54" Height="54" Margin="10,0,0,0">
-                <Image Source="images/btn_reset.png"/>
-            </Button>
-            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Save" Width="24" Height="24" Margin="10,0,0,0">
-                <Image Source="images/btn_save.png"/>
-            </Button>
-            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Upload" Width="24" Height="24" Margin="10,0,0,0">
-                <Image Source="images/btn_upload.png"/>
-            </Button>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="0,10,0,2">
+                <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Undo" Width="24" Height="24">
+                    <Image Source="images/btn_undo.png"/>
+                </Button>
+                <TextBlock Text="Undo" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="40,10,0,2">
+                <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Reset" Width="24" Height="24">
+                    <Image Source="images/btn_reset.png"/>
+                </Button>
+                <TextBlock Text="Reset" />
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="40,10,0,2">
+                <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Save" Width="24" Height="24">
+                    <Image Source="images/btn_save.png"/>
+                </Button>
+                <TextBlock Text="Save" />
+            </StackPanel>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="40,10,0,2">
+                <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Upload" Width="24" Height="24">
+                    <Image Source="images/btn_upload.png"/>
+                </Button>
+                <TextBlock Text="Upload" />
+            </StackPanel>
         </StackPanel>
 
         <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">

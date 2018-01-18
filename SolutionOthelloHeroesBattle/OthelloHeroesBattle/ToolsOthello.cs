@@ -96,5 +96,21 @@ namespace OthelloHeroesBattle
             return default(T);
         }
 
+        public static int[,] CloneArray(int[,] source)
+        {
+            int[,] clone = new int[8,8];
+
+            for (int i = 0; i < source.GetLength(0); i++)
+            {
+                for (int j = 0; j < source.GetLength(1); j++)
+                {
+                    clone[i, j] = source[i, j];
+                }
+            }
+
+            return clone;
+        }
+
+
     }
 }

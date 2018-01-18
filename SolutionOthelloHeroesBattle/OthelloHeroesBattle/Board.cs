@@ -15,6 +15,10 @@ namespace OthelloHeroesBattle
         #region Private members
         private int[,] board;
         private const int SIZE_TILE = 8;
+        private int timerWhite;
+        private int timerBlack;
+        private bool isWhiteTurn;
+        private Stack<int[,]> stackBoardStates;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -26,14 +30,23 @@ namespace OthelloHeroesBattle
 
 
         public int[,] BoardGame { get => board; set => board = value; }
+        public int TimerWhite { get => timerWhite; set => timerWhite = value; }
+        public int TimerBlack { get => timerBlack; set => timerBlack = value; }
+        public bool IsWhiteTurn { get => isWhiteTurn; set => isWhiteTurn = value; }
         #endregion
 
 
         public Board()
         {
             BoardGame = new int[SIZE_TILE, SIZE_TILE];
-        }
+            stackBoardStates = new Stack<int[,]>();
+    }
 
+        public Board(int timerWhite, int timerBlack) : this()
+        {
+            this.timerWhite = timerWhite;
+            this.timerBlack = timerBlack;
+        }
 
         public void SetCoin(EColorType color, int line, int col)
         {
@@ -177,6 +190,9 @@ namespace OthelloHeroesBattle
                                     {
                                         if (isFlip)
                                         {
+                                            //we save the previous board if the player want to undo the move
+                                            this.stackBoardStates.Push(ToolsOthello.CloneArray(this.board));
+
                                             Console.WriteLine("ISFLIPPING");
                                             int color = (isWhite) ? (int)EColorType.white : (int)EColorType.black;
                                             do
@@ -231,6 +247,20 @@ namespace OthelloHeroesBattle
                 }
                 Console.WriteLine();
             }
+        }
+        
+        /// <summary>
+        /// Go to the previous state board
+        /// </summary>
+        /// <returns></returns>
+        public bool UndoMove()
+        {
+            if (this.stackBoardStates.Count > 0)
+            {
+                this.board = ToolsOthello.CloneArray(this.stackBoardStates.Pop());
+                return true;
+            }
+            return false;
         }
 
         public override bool Equals(object obj)

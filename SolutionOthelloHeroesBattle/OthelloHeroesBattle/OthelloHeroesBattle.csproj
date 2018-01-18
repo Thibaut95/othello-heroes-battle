@@ -52,6 +52,9 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon %281%29.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -175,6 +178,9 @@
     <Resource Include="images\btn_upload.png" />
     <Resource Include="images\btn_undo.png" />
     <Resource Include="images\btn_reset.png" />
+    <Resource Include="favicon.ico" />
+    <Resource Include="images\icon_battle_heroes.png" />
+    <Resource Include="favicon %281%29.ico" />
     <Content Include="Resources\Spiderman.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

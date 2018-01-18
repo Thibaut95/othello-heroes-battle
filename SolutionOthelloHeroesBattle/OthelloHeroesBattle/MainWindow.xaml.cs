@@ -179,6 +179,7 @@ namespace OthelloHeroesBattle
             //we make sure that is the white turn first.
             this.isWhiteTurn = true;
 
+
             //update the ui toggle turn
             ToggleTurnUi();
 
@@ -187,7 +188,7 @@ namespace OthelloHeroesBattle
             this.countEmptyCell = 0;
 
             //first, init. the board
-            this.board = new Board();
+            this.board = new Board(this.playerWhite.Timer, this.playerBlack.Timer);
             this.board.Reset();
 
             //reset the player sccore and timer attributes
@@ -259,8 +260,10 @@ namespace OthelloHeroesBattle
                 var column = Grid.GetColumn(button);
                 var row = Grid.GetRow(button);
 
+
                 if (this.board.PlayMove(column, row, isWhiteTurn))
                 {
+                   
                     Console.WriteLine("LEGAL MOVE");
                     //the move is playable so we update the view
                     UpdateGridGUI();
@@ -413,7 +416,14 @@ namespace OthelloHeroesBattle
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
+            this.dtClockTime.Stop();
+
+            this.board.IsWhiteTurn = this.isWhiteTurn;
+            this.board.TimerBlack = this.playerBlack.Timer;
+            this.board.TimerWhite = this.playerWhite.Timer;
             ToolsOthello.SerializeObject(this.board);
+
+            this.dtClockTime.Start();
         }
 
         private void BtnMouseEnter(object sender, RoutedEventArgs e)
@@ -422,7 +432,6 @@ namespace OthelloHeroesBattle
             if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)){
                 button.Background = (isWhiteTurn) ? brushWhite : brushBlack;
             }
-            Console.WriteLine("OVERRR ENTER");
         }
 
         private void BtnMouseLeave(object sender, RoutedEventArgs e)
@@ -431,7 +440,6 @@ namespace OthelloHeroesBattle
             if(this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)){
                 button.Background = (isWhiteTurn) ? brushWhitePlayable : brushBlackPlayable;
             }
-            Console.WriteLine("OVERRR LEAVE");
         }
 
         private void Button_Quit(object sender, RoutedEventArgs e)
@@ -455,18 +463,36 @@ namespace OthelloHeroesBattle
 
         private void Button_Undo(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Maximized;
+            if(this.board.UndoMove())
+            {
+                this.isWhiteTurn ^= true;
+                ToggleTurnUi();
+                UpdateGridGUI();
+                ShowThePlayableCell();
+            }
         }
 
         private void Button_Upload(object sender, RoutedEventArgs e)
         {
+            this.dtClockTime.Stop();
+
             Board uploadBoard = ToolsOthello.DeSerializeObject<Board>();
             if (uploadBoard != null)
             {
                 this.board = uploadBoard;
+                this.playerBlack.Timer = uploadBoard.TimerBlack;
+                this.playerWhite.Timer = uploadBoard.TimerWhite;
+                this.isWhiteTurn = uploadBoard.IsWhiteTurn;
                 UpdateGridGUI();
+                ToggleTurnUi();
+                ShowThePlayableCell(); 
+            }
+            else
+            {
+                MessageBox.Show("Erreur, fichier pas valide");
             }
 
+            this.dtClockTime.Start();
         }
 
 
