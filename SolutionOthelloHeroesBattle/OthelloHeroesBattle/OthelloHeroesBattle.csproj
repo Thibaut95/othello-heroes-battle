@@ -168,6 +168,13 @@
     <Resource Include="images\marvel_logo_1.jpg" />
     <Resource Include="images\marvel_win.png" />
     <Resource Include="images\dc_win.jpg" />
+    <Resource Include="images\btn_fullScreen.png" />
+    <Resource Include="images\btn_minimized.png" />
+    <Resource Include="images\btn_quit.png" />
+    <Resource Include="images\btn_save.png" />
+    <Resource Include="images\btn_upload.png" />
+    <Resource Include="images\btn_reset.png" />
+    <Resource Include="images\btn_undo.png" />
     <Content Include="Resources\Spiderman.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
