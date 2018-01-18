@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -13,25 +17,34 @@ namespace OthelloHeroesBattle
     {
         public static void SerializeObject<T>(T serializableObject, string fileName)
         {
+            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+            saveFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            saveFileDialog1.FilterIndex = 2;
+            saveFileDialog1.RestoreDirectory = true;
+
+            if (saveFileDialog1.ShowDialog() == true)
+            {
+                if (saveFileDialog1.FileName != "")
+                { 
+                    try
+                    {        
+                            IFormatter formatter = new BinaryFormatter();
+                            Stream stream = new FileStream(saveFileDialog1.FileName,
+                                                     FileMode.Create,
+                                                     FileAccess.Write, FileShare.None);
+                            formatter.Serialize(stream, serializableObject);
+                            stream.Close();
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    } 
+                }   
+            }
             if (serializableObject == null) { return; }
 
-            try
-            {
-                XmlDocument xmlDocument = new XmlDocument();
-                XmlSerializer serializer = new XmlSerializer(serializableObject.GetType());
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    serializer.Serialize(stream, serializableObject);
-                    stream.Position = 0;
-                    xmlDocument.Load(stream);
-                    xmlDocument.Save(fileName);
-                    stream.Close();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-            }
         }
 
 
@@ -43,36 +56,49 @@ namespace OthelloHeroesBattle
         /// <returns></returns>
         public static T DeSerializeObject<T>(string fileName)
         {
-            if (string.IsNullOrEmpty(fileName)) { return default(T); }
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            T objectOut = default(T);
-            try
+            openFileDialog1.InitialDirectory = "c:\\";
+            openFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == true)
             {
-                XmlDocument xmlDocument = new XmlDocument();
-                xmlDocument.Load(fileName);
-                string xmlString = xmlDocument.OuterXml;
-
-                using (StringReader read = new StringReader(xmlString))
+                try
                 {
-                    Type outType = typeof(T);
-
-                    System.Xml.Serialization.XmlSerializer serializer = new XmlSerializer(outType);
-                    using (XmlReader reader = new XmlTextReader(read))
+                    if (openFileDialog1.FileName!="")
                     {
-                        objectOut = (T)serializer.Deserialize(reader);
-                        reader.Close();
-                    }
+                        
+                        IFormatter formatter = new BinaryFormatter();
+                        Stream stream = new FileStream(openFileDialog1.FileName,
+                                                    FileMode.Open,
+                                                    FileAccess.Read,
+                                                    FileShare.Read);
+                        try
+                        {
+                            return (T)formatter.Deserialize(stream);
 
-                    read.Close();
+
+                        }
+                        catch
+                        {
+                            return default(T);
+                        }
+
+                        stream.Close();
+                        
+                       
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                //Log exception here
-                Console.WriteLine(ex.ToString());
-            }
 
-            return objectOut;
+            return default(T);
         }
+
     }
 }

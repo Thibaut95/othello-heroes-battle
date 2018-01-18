@@ -393,7 +393,7 @@ namespace OthelloHeroesBattle
             }
             else
             {
-                brushWinner = ImageManager.GetBrushImage("wallpaper_1.png");
+                brushWinner = ImageManager.GetBrushImage("wallpaper_1.jpg");
             }
 
             CustomDialog customDialog = new CustomDialog(brushWinner)
@@ -413,7 +413,7 @@ namespace OthelloHeroesBattle
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
-            //ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
+            ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
         }
 
         private void Button_LoadGame(object sender, RoutedEventArgs e)
