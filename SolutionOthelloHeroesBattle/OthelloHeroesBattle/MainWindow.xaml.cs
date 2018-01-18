@@ -31,7 +31,7 @@ namespace OthelloHeroesBattle
         private Board board;
         private bool isWhiteTurn;
         private bool GameEnded;
-        private int countEmptyCell;
+        private int countEmptyCell; // mean that the grid is full
         private int skipTurn; // skipTurn = 1 mean one player can't move, skipTurn = 2 mean the both player can't move... So game ended
         private ImageBrush brushWhite;
         private ImageBrush brushBlack;
@@ -48,6 +48,7 @@ namespace OthelloHeroesBattle
         private DispatcherTimer dtClockTime;
         private ImageBrush brushMarvelDC;
         private ImageBrush brushWallpaper;
+        private ImageBrush brushWinner;
         #endregion
 
         /// <summary>
@@ -56,6 +57,14 @@ namespace OthelloHeroesBattle
         public MainWindow()
         {
             InitializeComponent();
+
+            //we start a timer
+            dtClockTime = new DispatcherTimer
+            {
+                Interval = new TimeSpan(0, 0, 1) //in Hour, Minutes, Second.
+            };
+            dtClockTime.Tick += DtClockTime_Tick;
+
             InitGridWithButton();
             LoadAssets();
             BindingPlayer();
@@ -74,8 +83,10 @@ namespace OthelloHeroesBattle
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    Button button = new Button();
-                    button.Style = style;
+                    Button button = new Button
+                    {
+                        Style = style
+                    };
                     button.Click += Btn_click;
                     button.MouseEnter += BtnMouseEnter;
                     button.MouseLeave += BtnMouseLeave;
@@ -168,7 +179,12 @@ namespace OthelloHeroesBattle
             //we make sure that is the white turn first.
             this.isWhiteTurn = true;
 
+            //update the ui toggle turn
             ToggleTurnUi();
+
+            //reset count
+            this.skipTurn = 0;
+            this.countEmptyCell = 0;
 
             //first, init. the board
             this.board = new Board();
@@ -191,11 +207,6 @@ namespace OthelloHeroesBattle
             this.GameEnded = false;
 
             //we start a timer
-            dtClockTime = new DispatcherTimer
-            {
-                Interval = new TimeSpan(0, 0, 1) //in Hour, Minutes, Second.
-            };
-            dtClockTime.Tick += DtClockTime_Tick;
             dtClockTime.Start();
         }
 
@@ -233,7 +244,7 @@ namespace OthelloHeroesBattle
         private void Btn_click(object sender, RoutedEventArgs e)
         {
 
-            MessageBox.Show("WINNER");
+            
 
             //is game ended... start a new game 
             if (this.GameEnded)
@@ -248,7 +259,7 @@ namespace OthelloHeroesBattle
                 var column = Grid.GetColumn(button);
                 var row = Grid.GetRow(button);
 
-                if(this.board.PlayMove(column, row, isWhiteTurn))
+                if (this.board.PlayMove(column, row, isWhiteTurn))
                 {
                     Console.WriteLine("LEGAL MOVE");
                     //the move is playable so we update the view
@@ -266,20 +277,7 @@ namespace OthelloHeroesBattle
                 //toggle player
                 this.isWhiteTurn = !this.isWhiteTurn;
 
-
-                if (!ShowThePlayableCell())
-                {
-                    this.skipTurn += 1;
-                    this.isWhiteTurn = !this.isWhiteTurn;
-                }
-
-                // check winner or end game
-                if (this.skipTurn >= 2 || countEmptyCell == 0)
-                {
-                    dtClockTime.Stop();
-                    this.GameEnded = true;
-
-                }
+                CheckForWinner();
 
                 //toggle the ui turn to know who can play
                 ToggleTurnUi();
@@ -291,9 +289,34 @@ namespace OthelloHeroesBattle
             }
         }
 
+        private void CheckForWinner()
+        {
+            if (!ShowThePlayableCell() && countEmptyCell != 0)
+            {
+                MessageBox.Show("Pas de coup possible, changement de joueur");
+                this.skipTurn += 1;
+                this.isWhiteTurn = !this.isWhiteTurn;
+                ShowThePlayableCell();
+            }
+            else
+            {
+                this.skipTurn = 0;
+            }
+
+            // check winner or end game
+            if (this.skipTurn >= 2 || countEmptyCell == 0)
+            {
+                dtClockTime.Stop();
+                this.GameEnded = true;
+                ShowWinner();
+
+            }
+        }
+
         private void UpdateGridGUI()
         {
             Console.WriteLine("IS_WHITE_TURN " + isWhiteTurn);
+            countEmptyCell = 0;
 
             Container.Children.Cast<Button>().ToList().ForEach(buttonGame =>
             {
@@ -315,13 +338,13 @@ namespace OthelloHeroesBattle
             });
 
             
-            updateScore();
+            UpdateScore();
         }
 
         /// <summary>
         /// Update the score of both player and change the background
         /// </summary>
-        private void updateScore()
+        private void UpdateScore()
         {
             this.playerWhite.Score = this.board.GetWhiteScore();
             this.playerBlack.Score = this.board.GetBlackScore();
@@ -336,7 +359,7 @@ namespace OthelloHeroesBattle
             }
             else
             {
-                //Container.Background = brushMarvelDC;
+                Container.Background = brushMarvelDC;
             }
         }
 
@@ -357,9 +380,30 @@ namespace OthelloHeroesBattle
         /// <summary>
         /// Check if there are a winner
         /// </summary>
-        private bool CheckForWinner()
+        private void ShowWinner()
         {
-            return false;
+            this.dtClockTime.Stop();
+            if (this.playerWhite.Score > this.playerBlack.Score)
+            {
+                brushWinner = ImageManager.GetBrushImage("marvel_win.png");
+            }
+            else if (this.playerWhite.Score < this.playerBlack.Score)
+            {
+                brushWinner = ImageManager.GetBrushImage("dc_win.jpg");
+            }
+            else
+            {
+                brushWinner = ImageManager.GetBrushImage("wallpaper_1.png");
+            }
+
+            CustomDialog customDialog = new CustomDialog(brushWinner)
+            {
+                Left = this.Left
+            };
+
+            customDialog.ShowDialog();
+            this.Show();
+            this.NewGame();
         }
 
         private void Button_Reset(object sender, RoutedEventArgs e)
@@ -369,7 +413,7 @@ namespace OthelloHeroesBattle
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
-            ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
+            //ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
         }
 
         private void Button_LoadGame(object sender, RoutedEventArgs e)
@@ -395,6 +439,37 @@ namespace OthelloHeroesBattle
             }
             Console.WriteLine("OVERRR LEAVE");
         }
+
+        private void Button_Quit(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Button_Mini(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState != WindowState.Normal)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+                
+        }
+
+        private void Button_FullScreen(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Maximized;
+        }
+
+        /// <summary>
+        /// Draggable the window without click in the title bar
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Panel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
+
 
     }
 }

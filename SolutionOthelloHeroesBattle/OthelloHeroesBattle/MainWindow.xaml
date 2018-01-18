@@ -5,9 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OthelloHeroesBattle"
         mc:Ignorable="d"
-        Title="HeroesBattle" Height="350" Width="525"
         MinHeight="600"
-        MinWidth="800">
+        MinWidth="800"
+        ResizeMode="CanResizeWithGrip"
+        WindowStyle="None"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -15,7 +18,7 @@
             <Setter Property="BorderThickness" Value="0.2"/>
         </Style>
 
-        
+
         <Style x:Key="MyButtonStyle" TargetType="Button">
             <Setter Property="Template">
                 <Setter.Value>
@@ -44,26 +47,34 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Window.Resources>
 
 
 
-    <DockPanel x:Name="root" LastChildFill="True">
+    <DockPanel x:Name="root" LastChildFill="True" >
+
+        <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
+            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent" Click="Button_Quit">ICON</Button>
+            <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Quit" >X</Button>
+                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Mini"  Margin="10,0,0,0">_</Button>
+                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_FullScreen" Margin="10,0,0,0">FULL</Button>
+            </StackPanel>
+        </DockPanel>
 
         <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button MinWidth="93" Click="Button_Reset">Reset</Button>
-            <Button MinWidth="93" Margin="10,0,0,0" Click="Button_Save">Winner</Button>
+            <Button MinWidth="93" Margin="10,0,0,0" Click="Button_Save">Save</Button>
         </StackPanel>
 
-        <StackPanel x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnWhitePlayer" Width="100" Height="100" Style="{StaticResource PanelButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
             </Button>
             <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
             <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
 
-        <StackPanel x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnBlackPlayer" Width="100" Height="100"  Style="{StaticResource PanelButtonStyle}"/>
             <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>

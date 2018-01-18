@@ -28,9 +28,11 @@ namespace OthelloHeroesBattle
             StreamResourceInfo streamInfo = Application.GetResourceStream(resourceHeroe);
             BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
 
-            ImageBrush brush = new ImageBrush();
-            brush.Stretch = Stretch.UniformToFill;
-            brush.ImageSource = temp;
+            ImageBrush brush = new ImageBrush
+            {
+                Stretch = Stretch.UniformToFill,
+                ImageSource = temp
+            };
             return brush;
         }
 
@@ -42,9 +44,11 @@ namespace OthelloHeroesBattle
             StreamResourceInfo streamInfo = Application.GetResourceStream(resouceImage);
             BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
 
-            ImageBrush brush = new ImageBrush();
-            brush.Stretch = Stretch.Uniform;
-            brush.ImageSource = temp;
+            ImageBrush brush = new ImageBrush
+            {
+                Stretch = Stretch.Uniform,
+                ImageSource = temp
+            };
             return brush;
         }
     }

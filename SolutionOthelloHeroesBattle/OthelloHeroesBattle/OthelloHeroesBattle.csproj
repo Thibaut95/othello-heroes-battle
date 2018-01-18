@@ -74,10 +74,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CustomDialog.xaml.cs">
+      <DependentUpon>CustomDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ToolsOthello.cs" />
     <Compile Include="Winner.xaml.cs">
       <DependentUpon>Winner.xaml</DependentUpon>
     </Compile>
+    <Page Include="CustomDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -159,6 +166,8 @@
     <Resource Include="images\marvel_dc_logo.png" />
     <Resource Include="images\wallpaper_1.jpg" />
     <Resource Include="images\marvel_logo_1.jpg" />
+    <Resource Include="images\marvel_win.png" />
+    <Resource Include="images\dc_win.jpg" />
     <Content Include="Resources\Spiderman.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
