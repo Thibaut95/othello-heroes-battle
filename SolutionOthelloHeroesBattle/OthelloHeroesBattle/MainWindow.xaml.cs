@@ -393,7 +393,7 @@ namespace OthelloHeroesBattle
             }
             else
             {
-                brushWinner = ImageManager.GetBrushImage("wallpaper_1.png");
+                brushWinner = ImageManager.GetBrushImage("wallpaper_1.jpg");
             }
 
             CustomDialog customDialog = new CustomDialog(brushWinner)

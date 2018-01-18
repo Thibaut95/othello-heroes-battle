@@ -8,6 +8,7 @@
         MinHeight="600"
         MinWidth="800"
         ResizeMode="CanResizeWithGrip"
+        BorderBrush="Transparent"
         WindowStyle="None"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
@@ -54,9 +55,9 @@
     <DockPanel x:Name="root" LastChildFill="True" >
 
         <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
-            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent" Click="Button_Quit">ICON</Button>
+            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent">ICON</Button>
             <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Quit" >X</Button>
+                <Button Background="Transparent"  BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Quit" >X</Button>
                 <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Mini"  Margin="10,0,0,0">_</Button>
                 <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_FullScreen" Margin="10,0,0,0">FULL</Button>
             </StackPanel>
