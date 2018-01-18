@@ -72,10 +72,10 @@
         </DockPanel>
 
         <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Undo" Width="44" Height="44" Margin="10,0,0,0">
+            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Undo" Width="24" Height="24" Margin="10,0,0,0">
                 <Image Source="images/btn_undo.png"/>
             </Button>
-            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Reset" Width="24" Height="24" Margin="10,0,0,0">
+            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Reset" Width="54" Height="54" Margin="10,0,0,0">
                 <Image Source="images/btn_reset.png"/>
             </Button>
             <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Save" Width="24" Height="24" Margin="10,0,0,0">
