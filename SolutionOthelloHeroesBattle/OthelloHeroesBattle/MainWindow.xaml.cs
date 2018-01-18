@@ -459,6 +459,17 @@ namespace OthelloHeroesBattle
             this.WindowState = WindowState.Maximized;
         }
 
+        private void Button_Undo(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Maximized;
+        }
+
+        private void Button_Upload(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Maximized;
+        }
+
+
         /// <summary>
         /// Draggable the window without click in the title bar
         /// </summary>

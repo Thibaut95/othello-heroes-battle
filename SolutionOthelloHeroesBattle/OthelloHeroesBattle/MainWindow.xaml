@@ -8,6 +8,8 @@
         MinHeight="600"
         MinWidth="800"
         ResizeMode="CanResizeWithGrip"
+        BorderBrush="Transparent"
+        BorderThickness="0"
         WindowStyle="None"
         Background="Transparent"
         WindowStartupLocation="CenterScreen">
@@ -54,17 +56,34 @@
     <DockPanel x:Name="root" LastChildFill="True" >
 
         <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
-            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent" Click="Button_Quit">ICON</Button>
+            <Button MinWidth="93" Background="Transparent" BorderBrush="Transparent">ICON</Button>
             <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Quit" >X</Button>
-                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_Mini"  Margin="10,0,0,0">_</Button>
-                <Button Background="Transparent" BorderThickness="1" BorderBrush="WhiteSmoke"  MinWidth="93" Click="Button_FullScreen" Margin="10,0,0,0">FULL</Button>
+
+                <Button Background="Transparent" BorderThickness="1" BorderBrush="Transparent"   Width="24" Height="24" Click="Button_Mini"  Margin="10,0,0,0">
+                    <Image Source="images/btn_minimized.png"/>
+                </Button>
+                <Button Background="Transparent" BorderThickness="1" BorderBrush="Transparent"   Width="24" Height="24" Click="Button_FullScreen" Margin="10,0,0,0">
+                    <Image Source="images/btn_fullScreen.png"/>
+                </Button>
+                <Button Background="Transparent" BorderBrush="Transparent" Width="24" Height="24" Click="Button_Quit"  Margin="10,0,0,0">
+                    <Image Source="images/btn_quit.png"/>
+                </Button>
             </StackPanel>
         </DockPanel>
 
         <StackPanel Margin="8" Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button MinWidth="93" Click="Button_Reset">Reset</Button>
-            <Button MinWidth="93" Margin="10,0,0,0" Click="Button_Save">Save</Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Undo" Width="44" Height="44" Margin="10,0,0,0">
+                <Image Source="images/btn_undo.png"/>
+            </Button>
+            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Reset" Width="24" Height="24" Margin="10,0,0,0">
+                <Image Source="images/btn_reset.png"/>
+            </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Click="Button_Save" Width="24" Height="24" Margin="10,0,0,0">
+                <Image Source="images/btn_save.png"/>
+            </Button>
+            <Button  Background="Transparent" BorderBrush="Transparent" Click="Button_Upload" Width="24" Height="24" Margin="10,0,0,0">
+                <Image Source="images/btn_upload.png"/>
+            </Button>
         </StackPanel>
 
         <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
