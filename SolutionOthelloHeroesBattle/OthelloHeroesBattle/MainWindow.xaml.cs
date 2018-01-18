@@ -413,13 +413,19 @@ namespace OthelloHeroesBattle
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
-            ToolsOthello.SerializeObject(this.board, "Othello_" + DateTime.Now.ToString());
+            ToolsOthello.SerializeObject(this.board);
         }
 
         private void Button_LoadGame(object sender, RoutedEventArgs e)
         {
-            String filename = "test";
-            //Board board = (Board)ToolsOthello.DeSerializeObject(filename);
+            Board board = ToolsOthello.DeSerializeObject<Board>();
+            if(board != default(Board))
+            {
+                Console.WriteLine("--------------test-----------");
+                this.board = board;
+                UpdateGridGUI();
+            }
+            
         }
 
         private void BtnMouseEnter(object sender, RoutedEventArgs e)
@@ -466,7 +472,8 @@ namespace OthelloHeroesBattle
 
         private void Button_Upload(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Maximized;
+            this.board = ToolsOthello.DeSerializeObject<Board>();
+            UpdateGridGUI();
         }
 
 

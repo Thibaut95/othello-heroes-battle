@@ -15,11 +15,12 @@ namespace OthelloHeroesBattle
 {
     static class ToolsOthello
     {
-        public static void SerializeObject<T>(T serializableObject, string fileName)
+        public static void SerializeObject<T>(T serializableObject)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
 
-            saveFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog1.Filter = "HEROES files (*.heroes)|*.heroes";
             saveFileDialog1.FilterIndex = 2;
             saveFileDialog1.RestoreDirectory = true;
 
@@ -54,12 +55,12 @@ namespace OthelloHeroesBattle
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
         /// <returns></returns>
-        public static T DeSerializeObject<T>(string fileName)
+        public static T DeSerializeObject<T>()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
 
-            openFileDialog1.InitialDirectory = "c:\\";
-            openFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            openFileDialog1.Filter = "HEROES files (*.heroes)|*.heroes";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
 
@@ -78,17 +79,12 @@ namespace OthelloHeroesBattle
                         try
                         {
                             return (T)formatter.Deserialize(stream);
-
-
                         }
                         catch
                         {
                             return default(T);
                         }
-
-                        stream.Close();
-                        
-                       
+                        stream.Close();    
                     }
                 }
                 catch (Exception ex)
