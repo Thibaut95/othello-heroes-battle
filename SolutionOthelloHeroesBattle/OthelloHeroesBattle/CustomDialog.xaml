@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:OthelloHeroesBattle"
         mc:Ignorable="d"
         Title="CustomDialog" Height="500" Width="500" WindowStyle="None"
-        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Background="Transparent"
-        MouseDown="Window_MouseDown" MinWidth="500" MinHeight="500">
+        MouseDown="Window_MouseDown" MinWidth="500" MinHeight="500"
+        WindowStartupLocation="CenterScreen">
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">

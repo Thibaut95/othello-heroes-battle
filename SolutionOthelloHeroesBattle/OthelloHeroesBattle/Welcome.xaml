@@ -1,0 +1,31 @@
+﻿<Window x:Class="OthelloHeroesBattle.Welcome"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OthelloHeroesBattle"
+        mc:Ignorable="d"
+        Title="Welcome" Height="400" Width="800" WindowStyle="None" BorderThickness="1" BorderBrush="Black"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Duration="00:00:01" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Margin="5">
+            <TextBlock Text="BATTLE OF HEROES" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB" FontSize="72" Foreground="Red">
+                <TextBlock.Effect>
+                    <DropShadowEffect BlurRadius="1" Direction="3151"/>
+                </TextBlock.Effect></TextBlock>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" FontFamily="Segoe UI Light"><Run Text="Developed "/><Run FontSize="9" Text="with "/><Run Text="love by"/></TextBlock>
+            <TextBlock Text="Johnny Da Costa | Thibaut Piquerez" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="9" Margin="136,0,135.429,0" FontFamily="Segoe UI Light"/>
+        </StackPanel>
+    </Grid>
+</Window>

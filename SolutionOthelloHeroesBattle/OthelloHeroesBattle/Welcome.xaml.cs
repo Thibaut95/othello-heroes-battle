@@ -16,36 +16,20 @@ using System.Windows.Threading;
 namespace OthelloHeroesBattle
 {
     /// <summary>
-    /// Logique d'interaction pour CustomDialog.xaml
+    /// Logique d'interaction pour Welcome.xaml
     /// </summary>
-    public partial class CustomDialog : Window
+    public partial class Welcome : Window
     {
-        public CustomDialog(ImageBrush brush)
+        public Welcome()
         {
             InitializeComponent();
-            this.Width = brush.Viewport.Width;
-            this.Height = brush.Viewport.Height;
-            this.Background = Brushes.Transparent;
-            brush.Stretch = Stretch.Uniform;
-            Root.Background = brush;
             StartCloseTimer();
-        }
-
-        /// <summary>
-        /// Draggable the window without click in the title bar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
         }
 
         private void StartCloseTimer()
         {
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(3d);
+            timer.Interval = TimeSpan.FromSeconds(5d);
             timer.Tick += TimerTick;
             timer.Start();
         }
@@ -57,7 +41,5 @@ namespace OthelloHeroesBattle
             timer.Tick -= TimerTick;
             Close();
         }
-
-
     }
 }

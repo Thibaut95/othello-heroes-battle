@@ -59,15 +59,5 @@ namespace OthelloHeroesBattle.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Spiderman {
-            get {
-                object obj = ResourceManager.GetObject("Spiderman", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

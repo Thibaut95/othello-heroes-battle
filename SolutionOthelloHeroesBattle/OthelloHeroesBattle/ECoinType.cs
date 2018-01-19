@@ -12,6 +12,7 @@
         greenlantern,
         batman,
         robin,
-        ironman
+        ironman,
+        wolverine
     }
 }

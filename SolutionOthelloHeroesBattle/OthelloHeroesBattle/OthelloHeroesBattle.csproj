@@ -77,13 +77,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ChoosePlayerDialog.xaml.cs">
+      <DependentUpon>ChoosePlayerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CustomDialog.xaml.cs">
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="ToolsOthello.cs" />
+    <Compile Include="Welcome.xaml.cs">
+      <DependentUpon>Welcome.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Winner.xaml.cs">
       <DependentUpon>Winner.xaml</DependentUpon>
     </Compile>
+    <Page Include="ChoosePlayerDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CustomDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,6 +120,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Welcome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Winner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -132,7 +146,10 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
+    <Resource Include="fonts\BADABB__.TTF" />
+    <Resource Include="fonts\earthorbiter.ttf" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -159,7 +176,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="images\Spiderman.png" />
     <Resource Include="images\Superman.png" />
@@ -181,7 +197,16 @@
     <Resource Include="favicon.ico" />
     <Resource Include="images\icon_battle_heroes.png" />
     <Resource Include="favicon %281%29.ico" />
-    <Content Include="Resources\Spiderman.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\batman.png" />
+    <Resource Include="images\greenarrow.png" />
+    <Resource Include="images\green_lantern.png" />
+    <Resource Include="images\robin.png" />
+    <Resource Include="images\wolverine.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\dc_marvel_logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

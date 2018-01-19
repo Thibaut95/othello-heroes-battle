@@ -43,6 +43,7 @@ namespace OthelloHeroesBattle
         private Player playerBlack;
         private Binding bindingWhite;
         private Binding bindingBlack;
+        private ECoinType[] imageCoinType;
         private Binding bindingWhiteTimer;
         private Binding bindingBlackTimer;
         private DispatcherTimer dtClockTime;
@@ -56,6 +57,15 @@ namespace OthelloHeroesBattle
         /// </summary>
         public MainWindow()
         {
+
+            Welcome welcomeScreen = new Welcome();
+            welcomeScreen.ShowDialog();
+
+            imageCoinType = new ECoinType[2];
+
+            ChoosePlayerDialog choosePlayerDialog = new ChoosePlayerDialog(ref imageCoinType);
+            choosePlayerDialog.ShowDialog();
+
             InitializeComponent();
 
             //we start a timer
@@ -145,8 +155,9 @@ namespace OthelloHeroesBattle
 
         private void LoadAssets()
         {
-            brushWhite = ImageManager.GetBrushHeroes(ECoinType.spiderman);
-            brushBlack = ImageManager.GetBrushHeroes(ECoinType.superman);
+
+            brushWhite = ImageManager.GetBrushHeroes(imageCoinType[0]);
+            brushBlack = ImageManager.GetBrushHeroes(imageCoinType[1]);
 
             brushWhitePlayable = brushWhite.Clone();
             brushWhitePlayable.Opacity = 0.3;

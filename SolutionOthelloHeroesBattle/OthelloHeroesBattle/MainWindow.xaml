@@ -56,9 +56,10 @@
     <DockPanel x:Name="root" LastChildFill="True" >
 
         <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
-            <Button Background="Transparent" BorderBrush="Transparent" Margin="10,0,0,0" Width="50" Height="50" Style="{StaticResource PanelButtonStyle}" >
-                <Image Source="images/icon_battle_heroes.png" Stretch="UniformToFill"/>
-            </Button>
+            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="Battle Of Heroes" FontSize="20" FontFamily="/OthelloHeroesBattle;component/fonts/#Earth Orbiter" FontStyle="Italic" Foreground="White" FontWeight="Bold" >
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="1" RenderingBias="Quality" BlurRadius="1" Opacity="0.8"/>
+                </TextBlock.Effect></TextBlock>
             <StackPanel Margin="8" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
 
                 <Button Background="Transparent" BorderThickness="1" BorderBrush="Transparent"   Width="24" Height="24" Click="Button_Mini"  Margin="10,0,0,0">
@@ -102,17 +103,17 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Margin="10,0,0,0" MouseDown="Panel_MouseDown" x:Name="PanelWhite" DockPanel.Dock="Left" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnWhitePlayer" Width="100" Height="100" Style="{StaticResource PanelButtonStyle}" HorizontalAlignment="Center" VerticalAlignment="Center">
             </Button>
-            <TextBlock x:Name="ScoreWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center">0</TextBlock>
-            <TextBlock x:Name="TimerWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            <TextBlock   x:Name="ScoreWhite" Margin="10" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB">0</TextBlock>
+            <TextBlock  x:Name="TimerWhite" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
         </StackPanel>
 
-        <StackPanel MouseDown="Panel_MouseDown" x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel  Margin="10,0,0,0" MouseDown="Panel_MouseDown" x:Name="PanelBlack" DockPanel.Dock="Right" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button x:Name="BtnBlackPlayer" Width="100" Height="100"  Style="{StaticResource PanelButtonStyle}"/>
-            <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
-            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+            <TextBlock x:Name="ScoreBlack" Margin="10" FontSize="36" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
+            <TextBlock x:Name="TimerBlack" Margin="10" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB" ></TextBlock>
         </StackPanel>
 
         <Grid x:Name="Container" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="500" MinHeight="500">
