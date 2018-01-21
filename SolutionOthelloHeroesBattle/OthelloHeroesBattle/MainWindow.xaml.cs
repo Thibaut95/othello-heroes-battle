@@ -475,16 +475,19 @@ namespace OthelloHeroesBattle
 
         private void Button_Mini(object sender, RoutedEventArgs e)
         {
-            if (this.WindowState != WindowState.Normal)
-            {
-                this.WindowState = WindowState.Normal;
-            }
-                
+            this.WindowState = WindowState.Minimized;
         }
 
         private void Button_FullScreen(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Maximized;
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowState = WindowState.Normal;
+            }
+            else
+            {
+                this.WindowState = WindowState.Maximized;
+            }
         }
 
         private void Button_Undo(object sender, RoutedEventArgs e)

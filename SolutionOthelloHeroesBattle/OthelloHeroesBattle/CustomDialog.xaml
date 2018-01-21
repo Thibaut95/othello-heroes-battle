@@ -8,6 +8,10 @@
         Title="CustomDialog" Height="500" Width="500" WindowStyle="None"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen">
+    <Window.Effect>
+        <DropShadowEffect Opacity="0.5" Direction="300"/>
+    </Window.Effect>
+
 
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
