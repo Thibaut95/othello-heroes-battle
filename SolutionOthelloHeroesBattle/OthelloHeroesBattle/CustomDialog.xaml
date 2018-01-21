@@ -7,8 +7,6 @@
         mc:Ignorable="d"
         Title="CustomDialog" Height="500" Width="500" WindowStyle="None"
         ResizeMode="NoResize"
-        Background="Transparent"
-        MouseDown="Window_MouseDown" MinWidth="500" MinHeight="500"
         WindowStartupLocation="CenterScreen">
 
     <Window.Triggers>
@@ -21,7 +19,37 @@
         </EventTrigger>
     </Window.Triggers>
 
-    <Grid x:Name="Root"  Background="Transparent">
+    <DockPanel LastChildFill="True">
+        <DockPanel.Background>
+            <ImageBrush ImageSource="images/winner_cup.png" Opacity="0.1" Stretch="UniformToFill"/>
+        </DockPanel.Background>
 
-    </Grid>
+        <TextBlock Margin="20" DockPanel.Dock="Top" Text="THE WINNER IS" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="36" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB" Foreground="#FFEF4343"></TextBlock>
+        
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Bottom" Margin="0,10,0,10">
+            <StackPanel Margin="30" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Height="30" Background="Transparent" BorderBrush="Transparent" Click="Button_PlayAgain">
+                    <Image Source="images/btn_undo.png"/>
+                </Button>
+                <TextBlock Text="Play again"></TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Height="30" Background="Transparent" BorderBrush="Transparent" Click="Button_ChooseOtherHeroes">
+                    <Image Source="images/settings.png"/>
+                </Button>
+                <TextBlock Text="Change heroes"></TextBlock>
+            </StackPanel>
+            
+        </StackPanel>
+
+        <Grid x:Name="Root" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Orientation="Vertical">
+                <Image x:Name="winner" Source="images/spiderman.png" Width="200" Height="200" Margin="10"></Image>
+                <TextBlock Text="Time : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
+                <TextBlock Text="Points : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
 </Window>

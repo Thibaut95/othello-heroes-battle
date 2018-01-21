@@ -87,9 +87,6 @@
     <Compile Include="Welcome.xaml.cs">
       <DependentUpon>Welcome.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Winner.xaml.cs">
-      <DependentUpon>Winner.xaml</DependentUpon>
-    </Compile>
     <Page Include="ChoosePlayerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -121,10 +118,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Welcome.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Winner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +200,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\dc_marvel_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\winner_cup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\settings.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

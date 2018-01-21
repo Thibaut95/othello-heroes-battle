@@ -22,8 +22,6 @@ namespace OthelloHeroesBattle
     public partial class ChoosePlayerDialog : Window
     {
         private bool isWhiteTurnChoose;
-        private ECoinType playerPathBlack;
-        private ECoinType playerPathWhite;
         private ECoinType[] playerPath;
 
 

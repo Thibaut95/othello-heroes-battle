@@ -56,7 +56,7 @@
     <DockPanel x:Name="root" LastChildFill="True" >
 
         <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Background="#FFFF6666" MouseDown="Panel_MouseDown">
-            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="Battle Of Heroes" FontSize="20" FontFamily="/OthelloHeroesBattle;component/fonts/#Earth Orbiter" FontStyle="Italic" Foreground="White" FontWeight="Bold" >
+            <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="Battle Of Heroes" FontSize="20" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB" FontStyle="Italic" Foreground="White" FontWeight="Bold" >
                 <TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="1" RenderingBias="Quality" BlurRadius="1" Opacity="0.8"/>
                 </TextBlock.Effect></TextBlock>

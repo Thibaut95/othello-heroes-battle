@@ -11,6 +11,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Resources;
@@ -187,6 +188,10 @@ namespace OthelloHeroesBattle
         /// </summary>
         private void NewGame()
         {
+
+            //we update the assets
+            LoadAssets();
+
             //we make sure that is the white turn first.
             this.isWhiteTurn = true;
 
@@ -399,24 +404,34 @@ namespace OthelloHeroesBattle
             this.dtClockTime.Stop();
             if (this.playerWhite.Score > this.playerBlack.Score)
             {
-                brushWinner = ImageManager.GetBrushImage("marvel_win.png");
+                brushWinner = brushWhite;
             }
             else if (this.playerWhite.Score < this.playerBlack.Score)
             {
-                brushWinner = ImageManager.GetBrushImage("dc_win.jpg");
+                brushWinner = brushBlack;
             }
             else
             {
                 brushWinner = ImageManager.GetBrushImage("wallpaper_1.jpg");
             }
 
-            CustomDialog customDialog = new CustomDialog(brushWinner)
-            {
-                Left = this.Left
-            };
+            CustomDialog customDialog = new CustomDialog(brushWinner, ref imageCoinType);
+
+            ShowDialogWinner(ref customDialog);
+        }
+
+        private void ShowDialogWinner(ref CustomDialog customDialog)
+        {
+            var blur = new BlurEffect();
+            var current = this.Background;
+            blur.Radius = 10;
+            this.Background = new SolidColorBrush(Colors.DarkGray);
+            this.Effect = blur;
 
             customDialog.ShowDialog();
-            this.Show();
+
+            this.Effect = null;
+            this.Background = current;
             this.NewGame();
         }
 

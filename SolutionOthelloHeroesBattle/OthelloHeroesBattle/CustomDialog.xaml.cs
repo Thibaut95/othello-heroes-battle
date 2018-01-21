@@ -20,44 +20,32 @@ namespace OthelloHeroesBattle
     /// </summary>
     public partial class CustomDialog : Window
     {
+        ECoinType[] arrayPlayerBrush;
         public CustomDialog(ImageBrush brush)
         {
             InitializeComponent();
-            this.Width = brush.Viewport.Width;
-            this.Height = brush.Viewport.Height;
-            this.Background = Brushes.Transparent;
-            brush.Stretch = Stretch.Uniform;
-            Root.Background = brush;
-            StartCloseTimer();
+            winner.Source = brush.ImageSource;
         }
 
-        /// <summary>
-        /// Draggable the window without click in the title bar
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        public CustomDialog(ImageBrush brush, ref ECoinType[] arrayPlayerBrush) : this(brush)
         {
-            if (e.ChangedButton == MouseButton.Left)
-                this.DragMove();
+            this.arrayPlayerBrush = arrayPlayerBrush;
         }
 
-        private void StartCloseTimer()
+
+
+        private void Button_PlayAgain(object sender, RoutedEventArgs e)
         {
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(3d);
-            timer.Tick += TimerTick;
-            timer.Start();
+            this.Close();
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void Button_ChooseOtherHeroes(object sender, RoutedEventArgs e)
         {
-            DispatcherTimer timer = (DispatcherTimer)sender;
-            timer.Stop();
-            timer.Tick -= TimerTick;
-            Close();
+            this.Hide();
+            ChoosePlayerDialog choosePlayerDialog = new ChoosePlayerDialog(ref this.arrayPlayerBrush);
+            choosePlayerDialog.ShowDialog();
+            this.Close();
+
         }
-
-
     }
 }
