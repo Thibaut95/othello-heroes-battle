@@ -27,9 +27,11 @@ namespace OthelloHeroesBattle
             winner.Source = brush.ImageSource;
         }
 
-        public CustomDialog(ImageBrush brush, ref ECoinType[] arrayPlayerBrush) : this(brush)
+        public CustomDialog(ImageBrush brush, ref ECoinType[] arrayPlayerBrush, ref int timer, ref int score) : this(brush)
         {
             this.arrayPlayerBrush = arrayPlayerBrush;
+            Timer.Text = "Timer : " + timer + "seconds";
+            Score.Text = "Score : " + score;
         }
 
 

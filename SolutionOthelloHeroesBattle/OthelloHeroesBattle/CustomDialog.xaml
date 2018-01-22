@@ -50,8 +50,8 @@
         <Grid x:Name="Root" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel Orientation="Vertical">
                 <Image x:Name="winner" Source="images/spiderman.png" Width="200" Height="200" Margin="10"></Image>
-                <TextBlock Text="Time : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
-                <TextBlock Text="Points : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
+                <TextBlock x:Name="Timer" Text="Time : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
+                <TextBlock x:Name="Score" Text="Points : " HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="/OthelloHeroesBattle;component/fonts/#BadaBoom BB"></TextBlock>
             </StackPanel>
         </Grid>
 

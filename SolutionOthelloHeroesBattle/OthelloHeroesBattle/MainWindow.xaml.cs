@@ -211,8 +211,7 @@ namespace OthelloHeroesBattle
             this.playerWhite.Reset();
             this.playerBlack.Reset();
 
-            //tools to know if the game is finish
-            this.countEmptyCell = 0;
+
 
             //we make sure that the content in each button is reset
             UpdateGridGUI();
@@ -401,21 +400,28 @@ namespace OthelloHeroesBattle
         /// </summary>
         private void ShowWinner()
         {
+            int timer = 0;
+            int score = 0;
+
             this.dtClockTime.Stop();
             if (this.playerWhite.Score > this.playerBlack.Score)
             {
                 brushWinner = brushWhite;
+                timer = playerWhite.Timer;
+                score = playerWhite.Score;
             }
             else if (this.playerWhite.Score < this.playerBlack.Score)
             {
                 brushWinner = brushBlack;
+                timer = playerBlack.Timer;
+                score = playerBlack.Score;
             }
             else
             {
                 brushWinner = ImageManager.GetBrushImage("wallpaper_1.jpg");
             }
 
-            CustomDialog customDialog = new CustomDialog(brushWinner, ref imageCoinType);
+            CustomDialog customDialog = new CustomDialog(brushWinner, ref imageCoinType, ref timer, ref score);
 
             ShowDialogWinner(ref customDialog);
         }
