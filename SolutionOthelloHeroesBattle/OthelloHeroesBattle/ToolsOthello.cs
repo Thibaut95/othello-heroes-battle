@@ -84,7 +84,12 @@ namespace OthelloHeroesBattle
                         {
                             return default(T);
                         }
-                        stream.Close();    
+                        finally
+                        {
+                            stream.Close();
+                            Console.WriteLine("File loaded with success");
+                        }
+                           
                     }
                 }
                 catch (Exception ex)
