@@ -21,10 +21,16 @@ namespace OthelloHeroesBattle
 
     public partial class ChoosePlayerDialog : Window
     {
+        #region private members
         private bool isWhiteTurnChoose;
         private ECoinType[] playerPath;
+        #endregion
 
 
+        /// <summary>
+        /// Default constructor
+        /// </summary>
+        /// <param name="playerPath"></param>
         public ChoosePlayerDialog(ref ECoinType[] playerPath)
         {
             InitializeComponent();
@@ -67,6 +73,11 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Change the opacity ot the button and change the cursor to default
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMouseLeave(object sender, MouseEventArgs e)
         {
             Button button = (Button)sender;
@@ -75,6 +86,11 @@ namespace OthelloHeroesBattle
 
         }
 
+        /// <summary>
+        /// Change change the opacity of the button and change the cursor
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMouseEnter(object sender, MouseEventArgs e)
         {
             Button button = (Button)sender;
@@ -82,6 +98,11 @@ namespace OthelloHeroesBattle
             Cursor = Cursors.Hand;
         }
 
+        /// <summary>
+        /// Select player choice
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Btn_click(object sender, RoutedEventArgs e)
         {
 
@@ -116,6 +137,11 @@ namespace OthelloHeroesBattle
             title.Text = "Player 2 : choice";
         }
 
+        /// <summary>
+        /// Save the player choice
+        /// </summary>
+        /// <param name="rowFirstChoice"></param>
+        /// <param name="colFirstChoice"></param>
         private void SaveChoicePlayer(int rowFirstChoice, int colFirstChoice)
         {
             // 0 row is marvel team so white

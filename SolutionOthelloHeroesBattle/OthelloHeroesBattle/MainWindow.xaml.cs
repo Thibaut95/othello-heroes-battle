@@ -51,6 +51,7 @@ namespace OthelloHeroesBattle
         private ImageBrush brushMarvelDC;
         private ImageBrush brushWallpaper;
         private ImageBrush brushWinner;
+        DoubleAnimation daFadeIn = new DoubleAnimation();
         #endregion
 
         /// <summary>
@@ -58,6 +59,7 @@ namespace OthelloHeroesBattle
         /// </summary>
         public MainWindow()
         {
+            DoubleAnimation daIn = new DoubleAnimation();
 
             Welcome welcomeScreen = new Welcome();
             welcomeScreen.ShowDialog();
@@ -68,6 +70,8 @@ namespace OthelloHeroesBattle
             choosePlayerDialog.ShowDialog();
 
             InitializeComponent();
+
+            Container.Background = Brushes.White;
 
             //we start a timer
             dtClockTime = new DispatcherTimer
@@ -108,6 +112,11 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Manage the timer
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DtClockTime_Tick(object sender, EventArgs e)
         {
             if (isWhiteTurn)
@@ -122,6 +131,9 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Make all the binding with the "widget"
+        /// </summary>
         private void BindingPlayer()
         {
             playerWhite = new Player("Spiderman");
@@ -154,6 +166,9 @@ namespace OthelloHeroesBattle
             TimerWhite.SetBinding(TextBlock.TextProperty, bindingWhiteTimer);
         }
 
+        /// <summary>
+        /// Load all and instanciate all brush
+        /// </summary>
         private void LoadAssets()
         {
 
@@ -226,7 +241,10 @@ namespace OthelloHeroesBattle
             dtClockTime.Start();
         }
 
-
+        /// <summary>
+        /// Show the cell playable
+        /// </summary>
+        /// <returns></returns>
         private bool ShowThePlayableCell()
         {
             bool isPlayable = false;
@@ -236,11 +254,11 @@ namespace OthelloHeroesBattle
                 if (this.board.IsPlayable(Grid.GetColumn(button), Grid.GetRow(button), isWhiteTurn)) {
                     if (isWhiteTurn)
                     {
-                        button.Background = brushWhitePlayable;
+                        AnimateButtonFadeIn(ref button, ref brushWhitePlayable);
                     }
                     else
                     {
-                        button.Background = brushBlackPlayable;
+                        AnimateButtonFadeIn(ref button, ref brushBlackPlayable);
                     }
 
                     isPlayable = true;
@@ -307,6 +325,9 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Check for any winner
+        /// </summary>
         private void CheckForWinner()
         {
             if (!ShowThePlayableCell() && countEmptyCell != 0)
@@ -331,6 +352,9 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Update the grid and show the right coin
+        /// </summary>
         private void UpdateGridGUI()
         {
             Console.WriteLine("IS_WHITE_TURN " + isWhiteTurn);
@@ -342,11 +366,14 @@ namespace OthelloHeroesBattle
                 var _row = Grid.GetRow(buttonGame);
                 if (this.board[_column, _row] == (int)EColorType.black)
                 {
-                    buttonGame.Background = brushBlack;
+                    AnimateButtonRotation(ref buttonGame, ref brushBlack);
+                    AnimateButtonFadeIn(ref buttonGame, ref brushBlack);
                 }
                 else if (this.board[_column, _row] == (int)EColorType.white)
                 {
-                    buttonGame.Background = brushWhite;
+                    AnimateButtonRotation(ref buttonGame, ref brushWhite);
+                    AnimateButtonFadeIn(ref buttonGame, ref brushWhite);
+
                 }
                 else
                 {
@@ -360,6 +387,63 @@ namespace OthelloHeroesBattle
         }
 
         /// <summary>
+        /// Animation fade in for the button in the grid container
+        /// </summary>
+        /// <param name="buttonGame"></param>
+        /// <param name="brush"></param>
+        private void AnimateButtonFadeIn(ref Button buttonGame, ref ImageBrush brush)
+        {
+            if (!buttonGame.Background.Equals(brush))
+            {
+                daFadeIn.From = 0;
+                daFadeIn.To = 1;
+                daFadeIn.Duration = new Duration(TimeSpan.FromSeconds(2));
+                buttonGame.Background = brush;
+                buttonGame.BeginAnimation(OpacityProperty, daFadeIn);
+            }
+        }
+
+        /// <summary>
+        /// Animation rotation for the button in the grid container
+        /// </summary>
+        /// <param name="buttonGame"></param>
+        /// <param name="brush"></param>
+        private void AnimateButtonRotation(ref Button buttonGame, ref ImageBrush brush)
+        {
+            if (!buttonGame.Background.Equals(brush))
+            {
+                DoubleAnimation da = new DoubleAnimation
+               (
+                    0,
+                    360,
+                    new Duration(TimeSpan.FromSeconds(1))
+               );
+
+                RotateTransform rt = new RotateTransform();
+                buttonGame.RenderTransform = rt;
+                buttonGame.RenderTransformOrigin = new Point(0.5, 0.5);
+                buttonGame.BeginAnimation(OpacityProperty, daFadeIn);
+                rt.BeginAnimation(RotateTransform.AngleProperty, da);
+            }
+        }
+
+        /// <summary>
+        /// Animation fade in for the background of the grid container
+        /// </summary>
+        /// <param name="brush"></param>
+        private void AnimateBackgroundFadeIn(ref ImageBrush brush)
+        {
+            if (!Container.Background.Equals(brush))
+            {
+                daFadeIn.From = 0;
+                daFadeIn.To = 0.5;
+                daFadeIn.Duration = new Duration(TimeSpan.FromSeconds(2));
+                Container.Background = brush;
+                brush.BeginAnimation(ImageBrush.OpacityProperty, daFadeIn);
+            }
+        }
+
+        /// <summary>
         /// Update the score of both player and change the background
         /// </summary>
         private void UpdateScore()
@@ -369,18 +453,21 @@ namespace OthelloHeroesBattle
 
             if (this.playerWhite.Score > this.playerBlack.Score)
             {
-                Container.Background = brushMarvel;
+                AnimateBackgroundFadeIn(ref brushMarvel);
             }
             else if (this.playerWhite.Score < this.playerBlack.Score)
             {
-                Container.Background = brushDC;
+                AnimateBackgroundFadeIn(ref brushDC);
             }
             else
             {
-                Container.Background = brushMarvelDC;
+                AnimateBackgroundFadeIn(ref brushMarvelDC);
             }
         }
 
+        /// <summary>
+        /// Update the ui game to show who is turn
+        /// </summary>
         private void ToggleTurnUi()
         {
             if (isWhiteTurn)
@@ -426,6 +513,10 @@ namespace OthelloHeroesBattle
             ShowDialogWinner(ref customDialog);
         }
 
+        /// <summary>
+        /// Show the dialog window winner with the player who win
+        /// </summary>
+        /// <param name="customDialog"></param>
         private void ShowDialogWinner(ref CustomDialog customDialog)
         {
             var blur = new BlurEffect();
@@ -441,11 +532,21 @@ namespace OthelloHeroesBattle
             this.NewGame();
         }
 
+        /// <summary>
+        /// trigger that reset the board ui and run a new game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Reset(object sender, RoutedEventArgs e)
         {
             this.NewGame();
         }
 
+        /// <summary>
+        /// Save the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Save(object sender, RoutedEventArgs e)
         {
             this.dtClockTime.Stop();
@@ -458,6 +559,11 @@ namespace OthelloHeroesBattle
             this.dtClockTime.Start();
         }
 
+        /// <summary>
+        /// Event mouse hover button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMouseEnter(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -466,6 +572,11 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Event mouse leave button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BtnMouseLeave(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
@@ -474,16 +585,32 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Quit the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Quit(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
+
+        /// <summary>
+        /// Hide the game window
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Mini(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
 
+        /// <summary>
+        /// Put the game window fullscreen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_FullScreen(object sender, RoutedEventArgs e)
         {
             if (this.WindowState == WindowState.Maximized)
@@ -496,6 +623,11 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Go back to the previous move
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Undo(object sender, RoutedEventArgs e)
         {
             if(this.board.UndoMove())
@@ -507,6 +639,11 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// Upload a old game with the format *.heroes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Upload(object sender, RoutedEventArgs e)
         {
             this.dtClockTime.Stop();

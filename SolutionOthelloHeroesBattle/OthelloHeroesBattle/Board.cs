@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace OthelloHeroesBattle
 {
     [Serializable]
-    public class Board : IPlayable.IPlayable
+    public class Board
     {
         #region Private members
         private int[,] board;
@@ -35,24 +35,43 @@ namespace OthelloHeroesBattle
         public bool IsWhiteTurn { get => isWhiteTurn; set => isWhiteTurn = value; }
         #endregion
 
-
+        /// <summary>
+        /// Constructor default
+        /// </summary>
         public Board()
         {
             BoardGame = new int[SIZE_TILE, SIZE_TILE];
             stackBoardStates = new Stack<int[,]>();
-    }
+        }
 
+        /// <summary>
+        /// Construtor to init. timer
+        /// </summary>
+        /// <param name="timerWhite"></param>
+        /// <param name="timerBlack"></param>
         public Board(int timerWhite, int timerBlack) : this()
         {
             this.timerWhite = timerWhite;
             this.timerBlack = timerBlack;
         }
 
+        /// <summary>
+        /// Set coin in the board
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="line"></param>
+        /// <param name="col"></param>
         public void SetCoin(EColorType color, int line, int col)
         {
             this.board[col, line] = (int)color;
         }
 
+        /// <summary>
+        /// Get coin in the board
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public EColorType GetCoin(int line, int col)
         {
             return (EColorType)this.BoardGame[col, line];
@@ -83,41 +102,40 @@ namespace OthelloHeroesBattle
             }
         }
 
+        /// <summary>
+        /// return the board
+        /// </summary>
+        /// <returns></returns>
         public int[,] GetBoard()
         {
             return this.BoardGame;
         }
 
-        /// <summary>
-        /// TODO : Thibaut
-        /// IA
-        /// </summary>
-        /// <returns></returns>
-        public string GetName()
-        {
-            return "SHIT IA EVER";
-        }
 
         /// <summary>
-        /// TODO : Thibaut
-        /// IA
+        /// Return the black score
         /// </summary>
         /// <returns></returns>
-        public Tuple<int, int> GetNextMove(int[,] game, int level, bool isWhiteTurn)
-        {
-            throw new NotImplementedException();
-        }
-
         public int GetBlackScore()
         {
             return GetCoinScore(EColorType.black);
         }
 
+        /// <summary>
+        /// Get the white score
+        /// </summary>
+        /// <returns></returns>
         public int GetWhiteScore()
         {
             return GetCoinScore(EColorType.white);
         }
 
+
+        /// <summary>
+        /// return the specific score from a player type
+        /// </summary>
+        /// <param name="eColorType"></param>
+        /// <returns></returns>
         private int GetCoinScore(EColorType eColorType)
         {
             int score = 0;
@@ -140,6 +158,14 @@ namespace OthelloHeroesBattle
             return IsFlip(column, line, isWhite);
         }
 
+        /// <summary>
+        /// Find if is the move is playable and update the board if isFlip = true
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <param name="isFlip"></param>
+        /// <returns>boolean</returns>
         private bool IsFlip(int column, int line, bool isWhite, bool isFlip=false)
         {
             #region Init. variables
@@ -227,16 +253,32 @@ namespace OthelloHeroesBattle
             return isLegal;
         }
 
+        /// <summary>
+        /// Check if the position is in the area
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <returns></returns>
         public static bool InBoardArea(int column, int line)
         {
             return line >= 0 && line <= 7 && column >= 0 && column <= 7;
         }
 
+        /// <summary>
+        /// Update the board for a specific move
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <returns></returns>
         public bool PlayMove(int column, int line, bool isWhite)
         {
             return IsFlip(column, line, isWhite, true);
         }
 
+        /// <summary>
+        /// Debug console to show the board
+        /// </summary>
         public void DebugBoardGame()
         {
             for (int i = 0; i < this.board.GetLength(0); i++)

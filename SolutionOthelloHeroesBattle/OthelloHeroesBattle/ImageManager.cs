@@ -14,6 +14,9 @@ namespace OthelloHeroesBattle
 {
     public static class ImageManager
     {
+        /// <summary>
+        /// Contain the 
+        /// </summary>
         public static readonly Tuple<ECoinType, String>[] arrayOfTuplesHeroes =
         {
             //MARVEL TEAM
@@ -29,6 +32,11 @@ namespace OthelloHeroesBattle
             Tuple.Create(ECoinType.robin, "robin.png"),
         };
 
+        /// <summary>
+        /// Get the brush heroes
+        /// </summary>
+        /// <param name="heroesType"></param>
+        /// <returns></returns>
         public static ImageBrush GetBrushHeroes(ECoinType heroesType)
         {
             String path = "";
@@ -54,6 +62,11 @@ namespace OthelloHeroesBattle
             return brush;
         }
 
+        /// <summary>
+        /// Get the brush for a specific filname
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         public static ImageBrush GetBrushImage(String filename)
         {
             string path = "images/"+filename;

@@ -15,6 +15,12 @@ namespace OthelloHeroesBattle
 {
     static class ToolsOthello
     {
+
+        /// <summary>
+        /// Serialize an object for the persistance
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="serializableObject"></param>
         public static void SerializeObject<T>(T serializableObject)
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -50,7 +56,7 @@ namespace OthelloHeroesBattle
 
 
         /// <summary>
-        /// Deserializes an xml file into an object list
+        /// Deserializes an binary file to a object
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="fileName"></param>
@@ -101,6 +107,12 @@ namespace OthelloHeroesBattle
             return default(T);
         }
 
+
+        /// <summary>
+        /// DeepCopy of array
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static int[,] CloneArray(int[,] source)
         {
             int[,] clone = new int[8,8];
