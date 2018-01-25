@@ -109,8 +109,6 @@
     <Compile Include="Board.cs" />
     <Compile Include="ECoinType.cs" />
     <Compile Include="EColorType.cs" />
-    <Compile Include="EPlayerType.cs" />
-    <Compile Include="EStateType.cs" />
     <Compile Include="ImageManager.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

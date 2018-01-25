@@ -12,6 +12,10 @@ using System.Windows.Resources;
 
 namespace OthelloHeroesBattle
 {
+    /// <summary>
+    /// Manage all the image brush 
+    /// For all image you can retrieve all in this website http://www.oxygenna.com/freebies/free-set-of-flat-super-heroes-busts
+    /// </summary>
     public static class ImageManager
     {
         /// <summary>
