@@ -15,7 +15,6 @@ namespace OthelloIAG4
         
         public Board()
         {
-            Console.WriteLine("constructeur");
             ai = new AI(this);
             board =new int[,]{
                 { -1,-1,-1,-1,-1,-1,-1,-1},
@@ -62,7 +61,7 @@ namespace OthelloIAG4
         /// <returns></returns>
         public string GetName()
         {
-            return "shit IA ever";
+            return "Da Costa, Piquerez";
         }
 
         /// <summary>
@@ -72,7 +71,6 @@ namespace OthelloIAG4
         /// <returns></returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool isWhiteTurn)
         {
-            Console.WriteLine("nextmove");
             if (isWhiteTurn)
             {
                 return ai.GetNextMove((int)EColorType.white);

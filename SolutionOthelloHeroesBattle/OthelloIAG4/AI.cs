@@ -18,21 +18,32 @@ namespace OthelloIAG4
             this.board = board;
         }
 
+        /// <summary>
+        /// Fonction qui retourne le prochain coup de l'IA
+        /// </summary>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public Tuple<int, int> GetNextMove(int color)
         {
             GameState currentState = new GameState(board.GetBoard(), color);
             AlphaBeta(currentState, MAXDEPTH, 1, currentState.GetEvaluation());
-            Console.WriteLine("BestMove" + bestMove);
             return bestMove;
         }
 
+        /// <summary>
+        /// Implémentation de l'algorithme alpha-beta
+        /// </summary>
+        /// <param name="gameState"></param>
+        /// <param name="depth"></param>
+        /// <param name="minOrMax"></param>
+        /// <param name="parentValue"></param>
+        /// <returns></returns>
         private int AlphaBeta(GameState gameState, int depth, int minOrMax, int parentValue)
         {
             int bestEvaluation = minOrMax * -int.MaxValue;
             List<Tuple<int, int>> avaibleMove = gameState.GetAvaibleMove();
-            if (avaibleMove.Count == 0)
+            if (avaibleMove.Count == 0)//Pas de coup jouable
             {
-                Console.WriteLine("pas de coup");
                 bestMove = new Tuple<int, int>(-1, -1);
                 return 0;
             }
@@ -44,6 +55,7 @@ namespace OthelloIAG4
                 }
                 foreach (Tuple<int, int> move in avaibleMove)
                 {
+                    Console.WriteLine("Move : ");
                     GameState newState = gameState.ApllyMove(move);
                     int tempEvaluation = AlphaBeta(newState, depth - 1, -minOrMax, bestEvaluation);
                     if (tempEvaluation * minOrMax > bestEvaluation * minOrMax)
